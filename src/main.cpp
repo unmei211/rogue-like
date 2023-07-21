@@ -6,7 +6,10 @@
 #include "rogue/components/player_control_component.h"
 #include "rogue/components/texture_component.h"
 #include "rogue/components/transform_component.h"
+#include "rogue/systems/move_control_system.h"
+#include "rogue/systems/movement_system.h"
 #include "rogue/systems/rendering_system.h"
+
 int main() {
   terminal_open();
   terminal_refresh();
@@ -24,6 +27,8 @@ int main() {
   player->Add<TextureComponent>('@');
   player->Add<MovementComponent>(Vec2(1, 1), ZeroVec2);
   player->Add<PlayerControlComponent>(TK_RIGHT, TK_LEFT, TK_DOWN, TK_UP);
+  engine.GetSystemManager()->AddSystem<MoveControlSystem>(controls);
+  engine.GetSystemManager()->AddSystem<MovementSystem>();
   engine.GetSystemManager()->AddSystem<RenderingSystem>();
 
   while (true) {
@@ -32,6 +37,7 @@ int main() {
       break;
     }
     engine.OnUpdate();
+    controls.Reset();
     terminal_refresh();
   }
 

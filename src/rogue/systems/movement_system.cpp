@@ -4,7 +4,6 @@
 #include "rogue/components/movement_component.h"
 #include "rogue/components/transform_component.h"
 
-
 MovementSystem::MovementSystem(EntityManager* const entity_manager, SystemManager* const system_manager)
     : ISystem(entity_manager, system_manager) {}
 void MovementSystem::OnUpdate() {
@@ -13,7 +12,7 @@ void MovementSystem::OnUpdate() {
       auto tc = entity.Get<TransformComponent>();
       auto mc = entity.Get<MovementComponent>();
 
-      tc->pos_ += mc->direction_;
+      tc->pos_ += mc->direction_ * mc->speed_;
     }
   }
 }
