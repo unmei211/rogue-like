@@ -3,7 +3,6 @@
 #include <BearLibTerminal.h>
 
 #include "lib/ecs/entity_manager.h"
-#include "lib/math/to_pos.h"
 #include "rogue/components/texture_component.h"
 #include "rogue/components/transform_component.h"
 

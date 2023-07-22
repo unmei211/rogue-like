@@ -2,6 +2,7 @@
 #define INCLUDE_ROGUE_SYSTEMS_RENDERING_SYSTEM_H_
 
 #include "lib/ecs/system.h"
+#include "lib/math/to_pos.h"
 
 class RenderingSystem : public ISystem {
  protected:
