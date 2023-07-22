@@ -14,13 +14,13 @@ static bool FilterPlayer(const Entity& entity) {
          entity.Get<ColliderComponent>()->AnyCollision();
 }
 
-static void GiveCoins(Entity* entity) {
+void TakeCoinSystem::GiveCoins(Entity* entity) {
   auto cc = entity->Get<ColliderComponent>();
   for (auto& collision : cc->GetCollisions()) {
     if (collision->Contains<CoinComponent>() && collision->Contains<TakeableComponent>()) {
       entity->Get<WalletComponent>()->moneys_ += collision->Get<CoinComponent>()->cost_;
-      std::cout << "WWWWOOOOW" << std::endl;
-      // DeleteCoin(entity);
+      std::cout << entity->Get<WalletComponent>()->moneys_ << std::endl;
+      GetEntityManager().DeleteEntity(collision->GetId());
     }
   }
 }
