@@ -37,7 +37,7 @@ static void Collide(Entity* entity_1, Entity* entity_2) {
 }
 
 void CollisionSystem::OnPostUpdate() {
-  // LogPrint(tag_);
+  LogPrint(tag_);
   for (auto& entity : GetEntityManager()) {
     if (entity.Contains<ColliderComponent>()) {
       entity.Get<ColliderComponent>()->Clear();
@@ -46,7 +46,7 @@ void CollisionSystem::OnPostUpdate() {
 }
 
 void CollisionSystem::OnUpdate() {
-  //  LogPrint(tag_);
+  LogPrint(tag_);
   //  std::cout << "COLLISION ON UPDATE " << std::endl;
   //  std::vector<Entity*> may_collide;
   //  for (auto& entity : GetEntityManager()) {

@@ -48,32 +48,32 @@ class SystemManager {
   }
 
   void OnUpdate() {
-    //    for (size_t i = 0; i < priority_.size(); i++) {
-    //      std::cout << priority_[i].name() << " [" << i + 1 << "]  ";
-    //    }
-    //    std::cout << "\n";
-    //    std::cout << "\tOnPreUpdate:" << std::endl;
+    //        for (size_t i = 0; i < priority_.size(); i++) {
+    //          std::cout << priority_[i].name() << " [" << i + 1 << "]  ";
+    //        }
+    //        std::cout << "\n";
+    //        std::cout << "\tOnPreUpdate:" << std::endl;
 
     for (auto &p : priority_) {
       if (systems_[p]->is_enabled_) {
         systems_[p]->OnPreUpdate();
       }
     }
-    //    std::cout << "-----------------------------------------------" << std::endl;
+    // std::cout << "-----------------------------------------------" << std::endl;
     //    std::cout << "\tOnUpdate: " << std::endl;
     for (auto &p : priority_) {
       if (systems_[p]->is_enabled_) {
         systems_[p]->OnUpdate();
       }
     }
-    //    std::cout << "-----------------------------------------------" << std::endl;
-    //    std::cout << "\tOnPostUpdate:" << std::endl;
+    //  std::cout << "-----------------------------------------------" << std::endl;
+    //      std::cout << "\tOnPostUpdate:" << std::endl;
     for (auto &p : priority_) {
       if (systems_[p]->is_enabled_) {
         systems_[p]->OnPostUpdate();
       }
     }
-    //    std::cout << "||||||||||||||||||||||||||||||||||||||||||||||||||||" << std::endl;
+    //   std::cout << "||||||||||||||||||||||||||||||||||||||||||||||||||||" << std::endl;
   }
 };
 

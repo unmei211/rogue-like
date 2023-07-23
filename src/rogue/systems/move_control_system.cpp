@@ -38,7 +38,7 @@ void MoveControlSystem::OnUpdateEntity(Entity *entity) const {
 }
 
 void MoveControlSystem::OnUpdate() {
-  // LogPrint(tag_);
+  LogPrint(tag_);
   for (auto &entity : GetEntityManager()) {
     if (Filter(entity)) {
       OnUpdateEntity(&entity);

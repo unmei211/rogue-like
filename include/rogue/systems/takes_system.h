@@ -13,6 +13,7 @@ class TakesSystem : public ISystem {
  protected:
   std::string tag_ = "TakesSystem";
   void OnUpdate() override;
+  void OnPostUpdate() override;
 
  public:
   TakesSystem(EntityManager* entity_manager, SystemManager* system_manager);

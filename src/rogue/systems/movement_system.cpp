@@ -8,7 +8,7 @@
 MovementSystem::MovementSystem(EntityManager* const entity_manager, SystemManager* const system_manager)
     : ISystem(entity_manager, system_manager) {}
 void MovementSystem::OnUpdate() {
-  // LogPrint(tag_);
+  LogPrint(tag_);
   for (auto& entity : GetEntityManager()) {
     if (entity.Contains<MovementComponent>() && entity.Contains<TransformComponent>()) {
       auto tc = entity.Get<TransformComponent>();

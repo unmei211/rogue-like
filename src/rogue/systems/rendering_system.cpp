@@ -7,7 +7,7 @@
 #include "rogue/components/transform_component.h"
 
 void RenderingSystem::OnUpdate() {
-  // LogPrint(tag_);
+  LogPrint(tag_);
   for (auto &e : GetEntityManager()) {
     if (e.Contains<TransformComponent>() && e.Contains<TextureComponent>()) {
       auto texture = e.Get<TextureComponent>();
@@ -19,12 +19,12 @@ void RenderingSystem::OnUpdate() {
 }
 
 void RenderingSystem::OnPreUpdate() {
-  // LogPrint(tag_);
+  LogPrint(tag_);
   terminal_clear();
 }
 
 void RenderingSystem::OnPostUpdate() {
-  // LogPrint(tag_);
+  LogPrint(tag_);
   terminal_refresh();
 }
 RenderingSystem::RenderingSystem(EntityManager *const entity_manager, SystemManager *const system_manager)

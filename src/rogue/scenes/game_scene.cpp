@@ -27,6 +27,7 @@
 #include "rogue/systems/movement_system.h"
 #include "rogue/systems/rendering_system.h"
 #include "rogue/systems/take_coin_system.h"
+#include "rogue/systems/takes_system.h"
 
 GameScene::GameScene(Context *ctx, const Controls &controls) : IScene(ctx), controls_(controls) {}
 
@@ -39,19 +40,7 @@ void GameScene::OnCreate() {
     coin->Add<TakeableComponent>();
     coin->Add<CostComponent>();
     coin->Add<RemovabilityComponent>();
-    coin->Add<MovementsCountComponent>();
     coin->Add<CoinComponent>();
-  }
-  {
-    auto player = engine.GetEntityManager()->CreateEntity();
-    player->Add<TransformComponent>(Vec2(3, 3));
-    player->Add<TextureComponent>('@');
-    player->Add<ColliderComponent>(OnesVec2, ZeroVec2);
-    player->Add<MovementComponent>(OnesVec2, ZeroVec2);
-    player->Add<PlayerControlComponent>(TK_RIGHT, TK_LEFT, TK_DOWN, TK_UP);
-    player->Add<LiftAbilityComponent>();
-    player->Add<WalletComponent>();
-    player->Add<MovementsCountComponent>();
   }
 
   {
@@ -66,24 +55,37 @@ void GameScene::OnCreate() {
   }
 
   {
-    auto food = engine.GetEntityManager()->CreateEntity();
-    // GameObject
-    food->Add<TransformComponent>(Vec2(5, 6));
-    food->Add<TextureComponent>('%');
-    food->Add<ColliderComponent>(OnesVec2, ZeroVec2);
-    // Takeable Object
-    food->Add<TakeableComponent>();
-    food->Add<RemovabilityComponent>();
-    // FoodAttributes
-    food->Add<NameComponent>("beef");
-    food->Add<FoodComponent>();
+    auto player = engine.GetEntityManager()->CreateEntity();
+    player->Add<TransformComponent>(Vec2(3, 3));
+    player->Add<TextureComponent>('@');
+    player->Add<ColliderComponent>(OnesVec2, ZeroVec2);
+    player->Add<MovementComponent>(OnesVec2, ZeroVec2);
+    player->Add<PlayerControlComponent>(TK_RIGHT, TK_LEFT, TK_DOWN, TK_UP);
+    player->Add<LiftAbilityComponent>();
+    player->Add<WalletComponent>();
+    player->Add<MovementsCountComponent>();
   }
+
+    {
+      auto food = engine.GetEntityManager()->CreateEntity();
+      // GameObject
+      food->Add<TransformComponent>(Vec2(5, 6));
+      food->Add<TextureComponent>('%');
+      food->Add<ColliderComponent>(OnesVec2, ZeroVec2);
+      // Takeable Object
+      food->Add<TakeableComponent>();
+      food->Add<RemovabilityComponent>();
+      // FoodAttributes
+      food->Add<NameComponent>("beef");
+      food->Add<FoodComponent>();
+    }
 
   auto sys_man = engine.GetSystemManager();
 
   sys_man->AddSystem<MoveControlSystem>(controls_);
   sys_man->AddSystem<MovementSystem>();
   sys_man->AddSystem<CollisionSystem>();
+  sys_man->AddSystem<TakesSystem>();
   sys_man->AddSystem<TakeCoinSystem>();
   sys_man->AddSystem<EntityDeletionSystem>();
   sys_man->AddSystem<RenderingSystem>();

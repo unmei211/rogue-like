@@ -13,7 +13,7 @@ static bool Filter(const Entity &entity) {
 }
 
 void EntityDeletionSystem::OnPostUpdate() {
-  // LogPrint(tag_);
+  LogPrint(tag_);
   for (auto &entity : GetEntityManager()) {
     if (Filter(entity)) {
       std::cout << "DELETE ENTITY" << entity.GetId() << std::endl;
