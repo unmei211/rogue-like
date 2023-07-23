@@ -1,0 +1,10 @@
+#ifndef INCLUDE_ROGUE_COMPONENTS_COUNTERS_MOVEMENTS_COUNT_COMPONENT_H_
+#define INCLUDE_ROGUE_COMPONENTS_COUNTERS_MOVEMENTS_COUNT_COMPONENT_H_
+
+#include "lib/ecs/component.h"
+class MovementsCountComponent : public IComponent {
+ public:
+  int count = 0;
+};
+
+#endif  // INCLUDE_ROGUE_COMPONENTS_COUNTERS_MOVEMENTS_COUNT_COMPONENT_H_

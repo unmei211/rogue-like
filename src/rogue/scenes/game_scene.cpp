@@ -4,16 +4,21 @@
 
 #include "rogue/scenes/game_scene.h"
 
+#include <string>
+
 #include "rogue/components/coin_component.h"
 #include "rogue/components/collider_component.h"
+#include "rogue/components/counters/movements_count_component.h"
 #include "rogue/components/lift_ability_component.h"
 #include "rogue/components/movement_component.h"
 #include "rogue/components/player_control_component.h"
+#include "rogue/components/removability_component.h"
 #include "rogue/components/takeable_component.h"
 #include "rogue/components/texture_component.h"
 #include "rogue/components/transform_component.h"
 #include "rogue/components/wallet_component.h"
 #include "rogue/systems/collision_system.h"
+#include "rogue/systems/entity_deletion_system.h"
 #include "rogue/systems/move_control_system.h"
 #include "rogue/systems/movement_system.h"
 #include "rogue/systems/rendering_system.h"
@@ -24,11 +29,13 @@ GameScene::GameScene(Context *ctx, const Controls &controls) : IScene(ctx), cont
 void GameScene::OnCreate() {
   {
     auto coin = engine.GetEntityManager()->CreateEntity();
-    coin->Add<TransformComponent>(Vec2(10, 10));
+    coin->Add<TransformComponent>(Vec2(4, 3));
     coin->Add<TextureComponent>('$');
     coin->Add<ColliderComponent>(OnesVec2, ZeroVec2);
     coin->Add<TakeableComponent>();
     coin->Add<CoinComponent>();
+    coin->Add<RemovabilityComponent>();
+    coin->Add<MovementsCountComponent>();
   }
   {
     auto player = engine.GetEntityManager()->CreateEntity();
@@ -39,13 +46,27 @@ void GameScene::OnCreate() {
     player->Add<PlayerControlComponent>(TK_RIGHT, TK_LEFT, TK_DOWN, TK_UP);
     player->Add<LiftAbilityComponent>();
     player->Add<WalletComponent>();
+    player->Add<MovementsCountComponent>();
   }
+
+  {
+    auto coin = engine.GetEntityManager()->CreateEntity();
+    coin->Add<TransformComponent>(Vec2(5, 4));
+    coin->Add<TextureComponent>('$');
+    coin->Add<ColliderComponent>(OnesVec2, ZeroVec2);
+    coin->Add<TakeableComponent>();
+    coin->Add<CoinComponent>();
+    coin->Add<RemovabilityComponent>();
+    coin->Add<MovementsCountComponent>();
+  }
+
   auto sm = engine.GetSystemManager();
 
   sm->AddSystem<MoveControlSystem>(controls_);
   sm->AddSystem<MovementSystem>();
   sm->AddSystem<CollisionSystem>();
   sm->AddSystem<TakeCoinSystem>();
+  sm->AddSystem<EntityDeletionSystem>();
   sm->AddSystem<RenderingSystem>();
 }
 void GameScene::OnRender() {

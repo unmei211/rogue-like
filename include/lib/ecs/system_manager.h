@@ -3,7 +3,9 @@
 
 #include <map>
 #include <memory>
+#include <string>
 #include <typeindex>
+#include <vector>
 
 #include "lib/ecs/entity_manager.h"
 #include "lib/ecs/system.h"
@@ -11,6 +13,7 @@
 class SystemManager {
  private:
   std::map<std::type_index, std::unique_ptr<ISystem>> systems_;
+  std::vector<std::type_index> priority_;
   EntityManager *const entity_manager_;
 
  public:
@@ -19,6 +22,7 @@ class SystemManager {
   template<typename System, typename... Args>
   SystemManager *AddSystem(Args &&...args) {
     systems_.emplace(typeid(System), std::make_unique<System>(entity_manager_, this, std::forward<Args>(args)...));
+    priority_.emplace_back(typeid(System));
     return this;
   }
 
@@ -42,22 +46,34 @@ class SystemManager {
   void Enable() const {
     systems_.at(typeid(System))->is_enabled_ = true;
   }
+
   void OnUpdate() {
-    for (auto &p : systems_) {
-      if (p.second->is_enabled_) {
-        p.second->OnPreUpdate();
+    //    for (size_t i = 0; i < priority_.size(); i++) {
+    //      std::cout << priority_[i].name() << " [" << i + 1 << "]  ";
+    //    }
+    //    std::cout << "\n";
+    //    std::cout << "\tOnPreUpdate:" << std::endl;
+
+    for (auto &p : priority_) {
+      if (systems_[p]->is_enabled_) {
+        systems_[p]->OnPreUpdate();
       }
     }
-    for (auto &p : systems_) {
-      if (p.second->is_enabled_) {
-        p.second->OnUpdate();
+    //    std::cout << "-----------------------------------------------" << std::endl;
+    //    std::cout << "\tOnUpdate: " << std::endl;
+    for (auto &p : priority_) {
+      if (systems_[p]->is_enabled_) {
+        systems_[p]->OnUpdate();
       }
     }
-    for (auto &p : systems_) {
-      if (p.second->is_enabled_) {
-        p.second->OnPostUpdate();
+    //    std::cout << "-----------------------------------------------" << std::endl;
+    //    std::cout << "\tOnPostUpdate:" << std::endl;
+    for (auto &p : priority_) {
+      if (systems_[p]->is_enabled_) {
+        systems_[p]->OnPostUpdate();
       }
     }
+    //    std::cout << "||||||||||||||||||||||||||||||||||||||||||||||||||||" << std::endl;
   }
 };
 

@@ -1,19 +1,27 @@
 #ifndef INCLUDE_LIB_ECS_SYSTEM_H_
 #define INCLUDE_LIB_ECS_SYSTEM_H_
 
+#include <iostream>
+#include <string>
+
 class SystemManager;
 class EntityManager;
 
 class ISystem {
   friend class SystemManager;
   bool is_enabled_ = true;
+  // std::string tag_;
   EntityManager *const entity_manager_;
   SystemManager *const system_manager_;
 
  protected:
+  std::string tag_ = "";
   virtual void OnPreUpdate() {}
   virtual void OnUpdate() {}
   virtual void OnPostUpdate() {}
+  static void LogPrint(const std::string &tag) {
+    std::cout << tag << std::endl;
+  }
 
  public:
   ISystem(EntityManager *entity_manager, SystemManager *system_manager)

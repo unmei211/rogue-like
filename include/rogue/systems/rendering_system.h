@@ -3,9 +3,10 @@
 
 #include "lib/ecs/system.h"
 #include "lib/math/to_pos.h"
-
+#include "string"
 class RenderingSystem : public ISystem {
  protected:
+  std::string tag_ = "RenderingSystem";
   void OnPreUpdate() override;
   void OnUpdate() override;
   void OnPostUpdate() override;

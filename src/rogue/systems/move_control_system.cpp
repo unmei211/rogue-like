@@ -5,6 +5,7 @@
 #include "lib/utils/controls.h"
 #include "rogue/components/movement_component.h"
 #include "rogue/components/player_control_component.h"
+#include "rogue/components/removability_component.h"
 #include "rogue/components/transform_component.h"
 
 // Maybe need walking component
@@ -37,6 +38,7 @@ void MoveControlSystem::OnUpdateEntity(Entity *entity) const {
 }
 
 void MoveControlSystem::OnUpdate() {
+  // LogPrint(tag_);
   for (auto &entity : GetEntityManager()) {
     if (Filter(entity)) {
       OnUpdateEntity(&entity);
