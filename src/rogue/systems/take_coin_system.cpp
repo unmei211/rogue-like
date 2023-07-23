@@ -1,8 +1,8 @@
 #include "rogue/systems/take_coin_system.h"
 
 #include "lib/ecs/entity_manager.h"
-#include "rogue/components/coin_component.h"
 #include "rogue/components/collider_component.h"
+#include "rogue/components/cost_component.h"
 #include "rogue/components/lift_ability_component.h"
 #include "rogue/components/player_control_component.h"
 #include "rogue/components/removability_component.h"
@@ -18,14 +18,16 @@ static bool FilterPlayer(const Entity& entity) {
 void TakeCoinSystem::GiveCoins(Entity* entity) {
   auto cc = entity->Get<ColliderComponent>();
   for (auto& collision : cc->GetCollisions()) {
-    if (collision->Contains<CoinComponent>() && collision->Contains<TakeableComponent>()) {
-      entity->Get<WalletComponent>()->moneys_ += collision->Get<CoinComponent>()->cost_;
+    if (collision->Contains<CostComponent>() && collision->Contains<TakeableComponent>()) {
+      entity->Get<WalletComponent>()->moneys_ += collision->Get<CostComponent>()->cost_;
       std::cout << entity->Get<WalletComponent>()->moneys_ << std::endl;
       if (collision->Contains<RemovabilityComponent>()) {
         if (collision->Get<RemovabilityComponent>()->must_be_deleted_) {
           std::cout << "FATAL" << std::endl;
         }
         collision->Get<RemovabilityComponent>()->must_be_deleted_ = true;
+        // test it: remove all except RemovabilityComponent
+        // TODO: item_component
         std::cout << "GIVE COIN" << std::endl;
         // GetEntityManager().DeleteEntity(collision->GetId());
       }

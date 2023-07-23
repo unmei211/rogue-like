@@ -1,7 +1,7 @@
 #include "rogue/systems/movement_system.h"
 
 #include "lib/ecs/entity_manager.h"
-#include "rogue/components/counters/movements_count_component.h"
+#include "rogue/components/indicators/movements_count_component.h"
 #include "rogue/components/movement_component.h"
 #include "rogue/components/transform_component.h"
 
@@ -16,7 +16,7 @@ void MovementSystem::OnUpdate() {
 
       tc->pos_ += mc->direction_ * mc->speed_;
       if (entity.Contains<MovementsCountComponent>() && entity.Get<MovementComponent>()->direction_ != ZeroVec2) {
-        entity.Get<MovementsCountComponent>()->count++;
+        entity.Get<MovementsCountComponent>()->count_++;
       }
     }
   }

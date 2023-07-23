@@ -1,11 +1,12 @@
 #ifndef INCLUDE_LIB_ECS_ENGINE_H_
 #define INCLUDE_LIB_ECS_ENGINE_H_
 
+#include <BearLibTerminal.h>
+
 #include <memory>
 
 #include "lib/ecs/entity_manager.h"
 #include "lib/ecs/system_manager.h"
-
 class Engine {
  private:
   std::unique_ptr<EntityManager> entity_manager_;
