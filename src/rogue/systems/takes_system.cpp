@@ -21,6 +21,7 @@ void TakesSystem::PickUp(Entity* picker) {
       if (!(collisions->Contains<RemovabilityComponent>() &&
             collisions->Get<RemovabilityComponent>()->must_be_deleted_)) {
         picker->Get<LiftAbilityComponent>()->PickUp(collisions);
+        collisions->Get<TakeableComponent>()->picked_up_ = true;
       }
     }
   }
