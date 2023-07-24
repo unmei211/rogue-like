@@ -16,6 +16,7 @@
 #include "rogue/components/removability_component.h"
 #include "rogue/components/tags/coin_component.h"
 #include "rogue/components/tags/food_component.h"
+#include "rogue/components/tags/player_component.h"
 #include "rogue/components/takeable_component.h"
 #include "rogue/components/texture_component.h"
 #include "rogue/components/transform_component.h"
@@ -64,21 +65,22 @@ void GameScene::OnCreate() {
     player->Add<LiftAbilityComponent>();
     player->Add<WalletComponent>();
     player->Add<MovementsCountComponent>();
+    player->Add<PlayerComponent>();
   }
 
-    {
-      auto food = engine.GetEntityManager()->CreateEntity();
-      // GameObject
-      food->Add<TransformComponent>(Vec2(5, 6));
-      food->Add<TextureComponent>('%');
-      food->Add<ColliderComponent>(OnesVec2, ZeroVec2);
-      // Takeable Object
-      food->Add<TakeableComponent>();
-      food->Add<RemovabilityComponent>();
-      // FoodAttributes
-      food->Add<NameComponent>("beef");
-      food->Add<FoodComponent>();
-    }
+  {
+    auto food = engine.GetEntityManager()->CreateEntity();
+    // GameObject
+    food->Add<TransformComponent>(Vec2(5, 6));
+    food->Add<TextureComponent>('%');
+    food->Add<ColliderComponent>(OnesVec2, ZeroVec2);
+    // Takeable Object
+    food->Add<TakeableComponent>();
+    food->Add<RemovabilityComponent>();
+    // FoodAttributes
+    food->Add<NameComponent>("beef");
+    food->Add<FoodComponent>();
+  }
 
   auto sys_man = engine.GetSystemManager();
 

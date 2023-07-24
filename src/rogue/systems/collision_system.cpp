@@ -32,7 +32,7 @@ static void Collide(Entity* entity_1, Entity* entity_2) {
 
   if (ToPos(tc1->pos_.x_) == ToPos(tc2->pos_.x_) && ToPos(tc1->pos_.y_) == ToPos(tc2->pos_.y_)) {
     cc2->Collide(entity_1);
-    std::cout << "COLLIDE!!! " << entity_2->GetId() << " " << entity_1->GetId() << std::endl;
+    // std::cout << "COLLIDE!!! " << entity_2->GetId() << " " << entity_1->GetId() << std::endl;
   }
 }
 

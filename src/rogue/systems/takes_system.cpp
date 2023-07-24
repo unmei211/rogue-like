@@ -24,6 +24,11 @@ void TakesSystem::PickUp(Entity* picker) {
       if (collisions->Contains<TakeableComponent>() && !collisions->Get<TakeableComponent>()->picked_up_) {
         picker->Get<LiftAbilityComponent>()->PickUp(collisions);
         collisions->Get<TakeableComponent>()->picked_up_ = true;
+        std::cout << collisions->GetId() << " подобран" << std::endl;
+      }
+      if (collisions->Contains<RemovabilityComponent>() &&
+          !collisions->Get<RemovabilityComponent>()->must_be_deleted_) {
+        collisions->Get<RemovabilityComponent>()->must_be_deleted_ = true;
       }
     }
   }
