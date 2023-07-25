@@ -1,15 +1,13 @@
 #include "rogue/systems/entity_deletion_system.h"
 
 #include "lib/ecs/entity_manager.h"
-#include "rogue/components/removability_component.h"
-#include "rogue/components/texture_component.h"
-#include "rogue/components/transform_component.h"
+#include "rogue/entity-filters/filters.h"
 
 EntityDeletionSystem::EntityDeletionSystem(EntityManager *const entity_manager, SystemManager *const system_manager)
     : ISystem(entity_manager, system_manager) {}
 
 static bool Filter(const Entity &entity) {
-  return entity.Contains<RemovabilityComponent>() && entity.Get<RemovabilityComponent>()->must_be_deleted_;
+  return Deleted(entity);
 }
 
 void EntityDeletionSystem::OnPostUpdate() {

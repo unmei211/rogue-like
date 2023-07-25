@@ -5,11 +5,12 @@
 #include "lib/ecs/entity_manager.h"
 #include "rogue/components/texture_component.h"
 #include "rogue/components/transform_component.h"
+#include "rogue/entity-filters/filters.h"
 
 void RenderingSystem::OnUpdate() {
   LogPrint(tag_);
   for (auto &e : GetEntityManager()) {
-    if (e.Contains<TransformComponent>() && e.Contains<TextureComponent>()) {
+    if (HasTransform(e) && HasTexture(e)) {
       auto texture = e.Get<TextureComponent>();
       auto transform = e.Get<TransformComponent>();
 

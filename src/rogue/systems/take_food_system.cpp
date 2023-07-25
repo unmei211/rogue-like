@@ -1,1 +1,47 @@
 #include "rogue/systems/take_food_system.h"
+
+#include "lib/ecs/entity_manager.h"
+#include "rogue/components/breakable_component.h"
+#include "rogue/components/durability_component.h"
+#include "rogue/components/item_component.h"
+#include "rogue/components/tags/loot_component.h"
+#include "rogue/entity-filters/filters.h"
+
+static bool Filter(const Entity& entity) {
+  return IsPlayer(entity);
+}
+
+TakeFoodSystem::TakeFoodSystem(EntityManager* entity_manager, SystemManager* system_manager)
+    : ISystem(entity_manager, system_manager) {}
+
+void TakeFoodSystem::GiveFood(Entity* entity) {
+  if (!(HasLiftAbility(*entity) && HasStomach(*entity) && entity->Get<LiftAbilityComponent>()->AnyPicked())) {
+    return;
+  }
+  auto lac = entity->Get<LiftAbilityComponent>();
+  for (auto& item : lac->GetHandPicked()) {
+    if (IsFood(*item)) {
+      if (HasRemovability(*item)) {
+        item->Delete<RemovabilityComponent>();
+      }
+      item->Delete<TransformComponent>();
+      item->Delete<ColliderComponent>();
+      item->Delete<LiftAbilityComponent>();
+      item->Delete<TakeableComponent>();
+      item->Delete<LootComponent>();
+      item->Add<ItemComponent>();
+      item->Add<DurabilityComponent>(item->Get<NameComponent>()->name_.length() * 2);
+      item->Add<BreakableComponent>();
+      //
+      //      // TODO добавление персонажу
+    }
+  }
+}
+
+void TakeFoodSystem::OnUpdate() {
+  for (auto& entity : GetEntityManager()) {
+    if (Filter(entity)) {
+      GiveFood(&entity);
+    }
+  }
+}

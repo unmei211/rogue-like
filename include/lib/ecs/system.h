@@ -20,7 +20,7 @@ class ISystem {
   virtual void OnUpdate() {}
   virtual void OnPostUpdate() {}
   static void LogPrint(const std::string &tag) {
-    // std::cout << tag << std::endl;
+    //    std::cout << tag << std::endl;
   }
 
  public:

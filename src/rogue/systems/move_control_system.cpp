@@ -5,13 +5,11 @@
 #include "lib/utils/controls.h"
 #include "rogue/components/movement_component.h"
 #include "rogue/components/player_control_component.h"
-#include "rogue/components/removability_component.h"
-#include "rogue/components/transform_component.h"
+#include "rogue/entity-filters/filters.h"
 
 // Maybe need walking component
 static bool Filter(const Entity &entity) {
-  return entity.Contains<MovementComponent>() && entity.Contains<TransformComponent>() &&
-         entity.Contains<PlayerControlComponent>();
+  return HasMovement(entity) && HasTransform(entity) && HasPlayerControl(entity);
 }
 
 MoveControlSystem::MoveControlSystem(EntityManager *const entity_manager, SystemManager *const system_manager,
@@ -20,7 +18,6 @@ MoveControlSystem::MoveControlSystem(EntityManager *const entity_manager, System
 
 void MoveControlSystem::OnUpdateEntity(Entity *entity) const {
   auto mc = entity->Get<MovementComponent>();
-  // auto tc = entity->Get<TransformComponent>();
   auto pcc = entity->Get<PlayerControlComponent>();
   if (mc->direction_ != ZeroVec2) {
     mc->direction_ = ZeroVec2;

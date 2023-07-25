@@ -10,7 +10,7 @@
 #include "rogue/entity-filters/filters.h"
 
 static bool Filter(const Entity& entity) {
-  return (entity.Contains<ColliderComponent>() && entity.Contains<TransformComponent>());
+  return (HasCollider(entity) && HasTransform(entity));
 }
 
 CollisionSystem::CollisionSystem(EntityManager* const entity_manager, SystemManager* const system_manager)
@@ -33,7 +33,7 @@ static void Collide(Entity* entity_1, Entity* entity_2) {
 void CollisionSystem::OnPostUpdate() {
   LogPrint(tag_);
   for (auto& entity : GetEntityManager()) {
-    if (entity.Contains<ColliderComponent>()) {
+    if (HasCollider(entity)) {
       entity.Get<ColliderComponent>()->Clear();
     }
   }

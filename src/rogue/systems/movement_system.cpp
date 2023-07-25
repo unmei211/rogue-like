@@ -4,18 +4,18 @@
 #include "rogue/components/indicators/movements_count_component.h"
 #include "rogue/components/movement_component.h"
 #include "rogue/components/transform_component.h"
-
+#include "rogue/entity-filters/filters.h"
 MovementSystem::MovementSystem(EntityManager* const entity_manager, SystemManager* const system_manager)
     : ISystem(entity_manager, system_manager) {}
 void MovementSystem::OnUpdate() {
   LogPrint(tag_);
   for (auto& entity : GetEntityManager()) {
-    if (entity.Contains<MovementComponent>() && entity.Contains<TransformComponent>()) {
+    if (HasMovement(entity) && HasTransform(entity)) {
       auto tc = entity.Get<TransformComponent>();
       auto mc = entity.Get<MovementComponent>();
 
       tc->pos_ += mc->direction_ * mc->speed_;
-      if (entity.Contains<MovementsCountComponent>() && entity.Get<MovementComponent>()->direction_ != ZeroVec2) {
+      if (HasMovementsCount(entity) && entity.Get<MovementComponent>()->direction_ != ZeroVec2) {
         entity.Get<MovementsCountComponent>()->count_++;
       }
     }

@@ -59,21 +59,21 @@ class SystemManager {
         systems_[p]->OnPreUpdate();
       }
     }
-    // std::cout << "-----------------------------------------------" << std::endl;
-    //    std::cout << "\tOnUpdate: " << std::endl;
+    //     std::cout << "-----------------------------------------------" << std::endl;
+//    std::cout << "\tOnUpdate: " << std::endl;
     for (auto &p : priority_) {
       if (systems_[p]->is_enabled_) {
         systems_[p]->OnUpdate();
       }
     }
-    //  std::cout << "-----------------------------------------------" << std::endl;
-    //      std::cout << "\tOnPostUpdate:" << std::endl;
+    //      std::cout << "-----------------------------------------------" << std::endl;
+    //    std::cout << "\tOnPostUpdate:" << std::endl;
     for (auto &p : priority_) {
       if (systems_[p]->is_enabled_) {
         systems_[p]->OnPostUpdate();
       }
     }
-    //   std::cout << "||||||||||||||||||||||||||||||||||||||||||||||||||||" << std::endl;
+//        std::cout << "||||||||||||||||||||||||||||||||||||||||||||||||||||" << std::endl;
   }
 };
 

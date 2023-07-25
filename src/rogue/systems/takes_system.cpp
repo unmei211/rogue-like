@@ -7,17 +7,19 @@
 #include "rogue/entity-filters/filters.h"
 
 static bool Filter(const Entity& entity) {
-  return entity.Contains<LiftAbilityComponent>() && entity.Contains<ColliderComponent>() &&
-         entity.Get<ColliderComponent>()->AnyCollision();
+  return HasLiftAbility(entity);
 }
 
 static bool PostFilter(const Entity& entity) {
-  return entity.Contains<LiftAbilityComponent>() && entity.Get<LiftAbilityComponent>()->AnyPicked();
+  return HasLiftAbility(entity) && entity.Get<LiftAbilityComponent>()->AnyPicked();
 }
 
 TakesSystem::TakesSystem(EntityManager* const entity_manager, SystemManager* const system_manager)
     : ISystem(entity_manager, system_manager) {}
 void TakesSystem::PickUp(Entity* picker) {
+  if (!(HasCollider(*picker) && picker->Get<ColliderComponent>()->AnyCollision())) {
+    return;
+  }
   auto cc = picker->Get<ColliderComponent>();
   for (auto& collisions : cc->GetCollisions()) {
     if (!Deleted(*collisions)) {
@@ -26,8 +28,7 @@ void TakesSystem::PickUp(Entity* picker) {
         collisions->Get<TakeableComponent>()->picked_up_ = true;
         std::cout << collisions->GetId() << " подобран" << std::endl;
       }
-      if (collisions->Contains<RemovabilityComponent>() &&
-          !collisions->Get<RemovabilityComponent>()->must_be_deleted_) {
+      if (HasRemovability(*collisions) && !collisions->Get<RemovabilityComponent>()->must_be_deleted_) {
         collisions->Get<RemovabilityComponent>()->must_be_deleted_ = true;
       }
     }
