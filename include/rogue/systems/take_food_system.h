@@ -1,6 +1,7 @@
-#ifndef ECS_TAKE_FOOD_SYSTEM_H
-#define ECS_TAKE_FOOD_SYSTEM_H
+#ifndef INCLUDE_ROGUE_SYSTEMS_TAKE_FOOD_SYSTEM_H_
+#define INCLUDE_ROGUE_SYSTEMS_TAKE_FOOD_SYSTEM_H_
 
-class take_food_system {};
+#include "lib/ecs/system.h"
+class TakeFoodSystem : public ISystem{};
 
-#endif  // ECS_TAKE_FOOD_SYSTEM_H
+#endif  // INCLUDE_ROGUE_SYSTEMS_TAKE_FOOD_SYSTEM_H_

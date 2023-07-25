@@ -1,10 +1,10 @@
 #include "rogue/systems/takes_system.h"
 
 #include "lib/ecs/entity_manager.h"
-#include "lib/utils/ignore_entity.h"
 #include "rogue/components/collider_component.h"
 #include "rogue/components/lift_ability_component.h"
 #include "rogue/components/takeable_component.h"
+#include "rogue/entity-filters/filters.h"
 
 static bool Filter(const Entity& entity) {
   return entity.Contains<LiftAbilityComponent>() && entity.Contains<ColliderComponent>() &&
@@ -20,8 +20,8 @@ TakesSystem::TakesSystem(EntityManager* const entity_manager, SystemManager* con
 void TakesSystem::PickUp(Entity* picker) {
   auto cc = picker->Get<ColliderComponent>();
   for (auto& collisions : cc->GetCollisions()) {
-    if (!Ignore(*collisions)) {
-      if (collisions->Contains<TakeableComponent>() && !collisions->Get<TakeableComponent>()->picked_up_) {
+    if (!Deleted(*collisions)) {
+      if (!Taken(*collisions)) {
         picker->Get<LiftAbilityComponent>()->PickUp(collisions);
         collisions->Get<TakeableComponent>()->picked_up_ = true;
         std::cout << collisions->GetId() << " подобран" << std::endl;

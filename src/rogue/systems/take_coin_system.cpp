@@ -8,16 +8,18 @@
 #include "rogue/components/removability_component.h"
 #include "rogue/components/tags/coin_component.h"
 #include "rogue/components/tags/player_component.h"
-#include "rogue/components/takeable_component.h"
 #include "rogue/components/wallet_component.h"
 
+
 static bool Filter(const Entity& entity) {
-  return entity.Contains<PlayerComponent>() && entity.Contains<LiftAbilityComponent>() &&
-         entity.Contains<ColliderComponent>() && entity.Contains<WalletComponent>() &&
-         entity.Get<ColliderComponent>()->AnyCollision();
+  return entity.Contains<PlayerComponent>();
 }
 
 void TakeCoinSystem::GiveCoins(Entity* entity) {
+  if (!(entity->Contains<LiftAbilityComponent>() && entity->Contains<ColliderComponent>() &&
+        entity->Contains<WalletComponent>() && entity->Get<ColliderComponent>()->AnyCollision())) {
+    return;
+  }
   auto cc = entity->Get<LiftAbilityComponent>();
   for (auto& item : cc->GetHandPicked()) {
     if (item->Contains<CoinComponent>()) {
