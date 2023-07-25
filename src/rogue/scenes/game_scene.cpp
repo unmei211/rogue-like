@@ -15,11 +15,13 @@
 #include "rogue/components/name_component.h"
 #include "rogue/components/player_control_component.h"
 #include "rogue/components/removability_component.h"
+#include "rogue/components/rigid_body.h"
 #include "rogue/components/stomach_component.h"
 #include "rogue/components/tags/coin_component.h"
 #include "rogue/components/tags/food_component.h"
 #include "rogue/components/tags/loot_component.h"
 #include "rogue/components/tags/player_component.h"
+#include "rogue/components/tags/wall_component.h"
 #include "rogue/components/takeable_component.h"
 #include "rogue/components/texture_component.h"
 #include "rogue/components/transform_component.h"
@@ -110,8 +112,33 @@ void GameScene::OnCreate() {
     // Takeable Object
     food->Add<TakeableComponent>();
     // FoodAttributes
-    food->Add<NameComponent>("beef");
+    food->Add<NameComponent>("mango");
     food->Add<FoodComponent>();
+  }
+
+  {
+    auto wall = engine.GetEntityManager()->CreateEntity();
+    wall->Add<WallComponent>();
+    wall->Add<TransformComponent>(Vec2(10, 7));
+    wall->Add<TextureComponent>('#');
+    wall->Add<ColliderComponent>(OnesVec2, ZeroVec2);
+    wall->Add<RigidBodyComponent>();
+  }
+  {
+    auto wall = engine.GetEntityManager()->CreateEntity();
+    wall->Add<WallComponent>();
+    wall->Add<TransformComponent>(Vec2(10, 8));
+    wall->Add<TextureComponent>('#');
+    wall->Add<ColliderComponent>(OnesVec2, ZeroVec2);
+    wall->Add<RigidBodyComponent>();
+  }
+  {
+    auto wall = engine.GetEntityManager()->CreateEntity();
+    wall->Add<WallComponent>();
+    wall->Add<TransformComponent>(Vec2(10, 9));
+    wall->Add<TextureComponent>('#');
+    wall->Add<ColliderComponent>(OnesVec2, ZeroVec2);
+    wall->Add<RigidBodyComponent>();
   }
 
   auto sys_man = engine.GetSystemManager();

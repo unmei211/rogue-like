@@ -9,6 +9,7 @@
 
 int main() {
   terminal_open();
+  terminal_set("window: title='luvSashuLul'");
   terminal_refresh();
 
   Controls controls;
