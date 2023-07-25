@@ -14,12 +14,13 @@ void AbilityControlSystem::OnUpdateEntity(Entity* entity) const {
   auto pcc = entity->Get<PlayerControlComponent>();
   if (HasStomach(*entity)) {
     if (controls_.IsPressed(pcc->switch_food_button_)) {
-      std::cout << "switch" << std::endl;
+      entity->Get<StomachComponent>()->Switch();
     }
   }
 }
 
 void AbilityControlSystem::OnUpdate() {
+  LogPrint(tag_);
   for (auto& entity : GetEntityManager()) {
     if (Filter(&entity)) {
       OnUpdateEntity(&entity);

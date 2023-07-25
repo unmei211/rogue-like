@@ -23,6 +23,7 @@
 bool IsPlayer(const Entity &entity);
 bool IsCoin(const Entity &entity);
 bool IsFood(const Entity &entity);
+bool IsItem(const Entity &entity);
 
 // Entity ignore
 bool Deleted(const Entity &entity);
@@ -38,5 +39,5 @@ bool HasLiftAbility(const Entity &entity);
 bool HasWallet(const Entity &entity);
 bool HasTexture(const Entity &entity);
 bool HasStomach(const Entity &entity);
-bool HasRemovability(const Entity &entity);
+bool HasTakeable(const Entity &entity);
 #endif  // INCLUDE_ROGUE_ENTITY_FILTERS_FILTERS_H_

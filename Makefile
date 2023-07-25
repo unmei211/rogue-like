@@ -6,6 +6,12 @@ endif
 
 all: clean run
 
+mem:
+	valgrind --leak-check=full --leak-resolution=med make run
+
+memcheck:
+	valgrind --leak-check=full --leak-resolution=med make
+
 run: reload build exec
 
 mkdir_build:

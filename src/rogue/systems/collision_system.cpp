@@ -5,7 +5,6 @@
 #include "lib/ecs/entity_manager.h"
 #include "lib/math/to_pos.h"
 #include "rogue/components/collider_component.h"
-#include "rogue/components/removability_component.h"
 #include "rogue/components/transform_component.h"
 #include "rogue/entity-filters/filters.h"
 

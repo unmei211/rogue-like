@@ -18,6 +18,7 @@ void TakeCoinSystem::GiveCoins(Entity* entity) {
   for (auto& item : lac->GetHandPicked()) {
     if (IsCoin(*item)) {
       entity->Get<WalletComponent>()->moneys_ += item->Get<CostComponent>()->cost_;
+      item->Add<RemovabilityComponent>();
       std::cout << entity->Get<WalletComponent>()->moneys_ << std::endl;
     }
   }

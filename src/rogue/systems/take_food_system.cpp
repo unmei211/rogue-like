@@ -20,25 +20,23 @@ void TakeFoodSystem::GiveFood(Entity* entity) {
   }
   auto lac = entity->Get<LiftAbilityComponent>();
   for (auto& item : lac->GetHandPicked()) {
-    if (IsFood(*item)) {
-      if (HasRemovability(*item)) {
-        item->Delete<RemovabilityComponent>();
-      }
+    if (IsFood(*item) && !IsItem(*item)) {
       item->Delete<TransformComponent>();
       item->Delete<ColliderComponent>();
-      item->Delete<LiftAbilityComponent>();
       item->Delete<TakeableComponent>();
       item->Delete<LootComponent>();
       item->Add<ItemComponent>();
       item->Add<DurabilityComponent>(item->Get<NameComponent>()->name_.length() * 2);
       item->Add<BreakableComponent>();
       //
+      entity->Get<StomachComponent>()->AddFood(item);
       //      // TODO добавление персонажу
     }
   }
 }
 
 void TakeFoodSystem::OnUpdate() {
+  LogPrint(tag_);
   for (auto& entity : GetEntityManager()) {
     if (Filter(entity)) {
       GiveFood(&entity);

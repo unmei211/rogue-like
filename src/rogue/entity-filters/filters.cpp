@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "rogue/components/item_component.h"
+
 // Entity is...
 bool IsPlayer(const Entity &entity) {
   return entity.Contains<PlayerComponent>();
@@ -14,13 +16,17 @@ bool IsFood(const Entity &entity) {
   return entity.Contains<FoodComponent>();
 }
 
+bool IsItem(const Entity &entity) {
+  return entity.Contains<ItemComponent>();
+}
+
 // Entity ignore
 bool Deleted(const Entity &entity) {
-  return entity.Contains<RemovabilityComponent>() && entity.Get<RemovabilityComponent>()->must_be_deleted_;
+  return entity.Contains<RemovabilityComponent>();
 }
 
 bool Taken(const Entity &entity) {
-  return entity.Contains<TakeableComponent>() && entity.Get<TakeableComponent>()->picked_up_;
+  return entity.Get<TakeableComponent>()->picked_up_;
 }
 
 // Entity has...
@@ -60,6 +66,7 @@ bool HasStomach(const Entity &entity) {
   return entity.Contains<StomachComponent>();
 }
 
-bool HasRemovability(const Entity &entity) {
-  return entity.Contains<RemovabilityComponent>();
+bool HasTakeable(const Entity &entity) {
+  return entity.Contains<TakeableComponent>();
 }
+
