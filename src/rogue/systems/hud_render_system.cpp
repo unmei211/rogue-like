@@ -17,19 +17,19 @@ void HudRenderSystem::OnUpdate() {
   for (auto &entity : GetEntityManager()) {
     if (IsPlayer(entity)) {
       if (HasMovementsCount(entity)) {
-        terminal_printf(1, 1, "STEPS: %d", entity.Get<MovementsCountComponent>()->count_);
+        terminal_printf(2, 1, "STEPS: %d", entity.Get<MovementsCountComponent>()->count_);
       }
       if (HasWallet(entity)) {
-        terminal_printf(1, 2, "MONEYS: %d", entity.Get<WalletComponent>()->moneys_);
+        terminal_printf(2, 2, "MONEYS: %d", entity.Get<WalletComponent>()->moneys_);
       }
       if (HasStomach(entity)) {
         Red red;
         auto food = entity.Get<StomachComponent>()->GetFood();
 
-        terminal_printf(16, 1, "FOOD: x%d", entity.Get<StomachComponent>()->GetSize());
+        terminal_printf(17, 1, "FOOD: x%d", entity.Get<StomachComponent>()->GetSize());
         if (food != nullptr) {
           auto dur_com = food->Get<DurabilityComponent>();
-          int x_hood_food = 25;
+          int x_hood_food = 26;
           for (int i = 0; i < (dur_com->full_durability_ / 2) + (dur_com->full_durability_) % 2; i++) {
             terminal_put(x_hood_food, 1, food->Get<NameComponent>()->name_[i]);
             if (i >= (dur_com->current_durability_ / 2) + (dur_com->current_durability_ % 2)) {

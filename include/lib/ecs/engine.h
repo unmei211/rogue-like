@@ -7,10 +7,13 @@
 
 #include "lib/ecs/entity_manager.h"
 #include "lib/ecs/system_manager.h"
+#include "rogue/tools/entity_creator.h"
+#include "rogue/tools/map_reader.h"
 class Engine {
  private:
   std::unique_ptr<EntityManager> entity_manager_;
   std::unique_ptr<SystemManager> system_manager_;
+  std::unique_ptr<MapReader> map_reader_ = std::make_unique<MapReader>();
 
  public:
   Engine()
@@ -23,7 +26,9 @@ class Engine {
   SystemManager* GetSystemManager() const {
     return system_manager_.get();
   }
-
+  MapReader* GetMapReader() const {
+    return map_reader_.get();
+  }
   void OnUpdate() const {
     system_manager_->OnUpdate();
   }

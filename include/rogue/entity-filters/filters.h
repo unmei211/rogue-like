@@ -40,4 +40,5 @@ bool HasWallet(const Entity &entity);
 bool HasTexture(const Entity &entity);
 bool HasStomach(const Entity &entity);
 bool HasTakeable(const Entity &entity);
+bool HasRigidBody(const Entity &entity);
 #endif  // INCLUDE_ROGUE_ENTITY_FILTERS_FILTERS_H_

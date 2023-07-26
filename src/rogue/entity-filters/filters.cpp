@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "rogue/components/item_component.h"
+#include "rogue/components/rigid_body_component.h"
 
 // Entity is...
 bool IsPlayer(const Entity &entity) {
@@ -68,5 +69,9 @@ bool HasStomach(const Entity &entity) {
 
 bool HasTakeable(const Entity &entity) {
   return entity.Contains<TakeableComponent>();
+}
+
+bool HasRigidBody(const Entity &entity) {
+  return entity.Contains<RigidBodyComponent>();
 }
 

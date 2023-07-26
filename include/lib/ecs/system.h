@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+#include "rogue/tools/entity_creator.h"
+
 class SystemManager;
 class EntityManager;
 
@@ -13,6 +15,7 @@ class ISystem {
   // std::string tag_;
   EntityManager *const entity_manager_;
   SystemManager *const system_manager_;
+  // EntityCreator *const entity_creator_;
 
  protected:
   std::string tag_ = "";
@@ -40,6 +43,12 @@ class ISystem {
   SystemManager &GetSystemManager() const {
     return *GetSystemManagerPtr();
   }
+  //  EntityCreator *GetEntityCreatorPtr() const {
+  //    return entity_creator_;
+  //  }
+  //  EntityCreator &GetEntityCreator() const {
+  //    return *GetEntityCreatorPtr();
+  //  }
 };
 
 #endif  // INCLUDE_LIB_ECS_SYSTEM_H_
