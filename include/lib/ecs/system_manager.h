@@ -26,7 +26,7 @@ class SystemManager {
     return this;
   }
 
-  template<class System>
+  template<typename System>
   SystemManager *Delete() {
     systems_.erase(typeid(System));
     return this;
@@ -37,12 +37,12 @@ class SystemManager {
     return this;
   }
 
-  template<class System>
+  template<typename System>
   void Disable() const {
     systems_.at(typeid(System))->is_enabled_ = false;
   }
 
-  template<class System>
+  template<typename System>
   void Enable() const {
     systems_.at(typeid(System))->is_enabled_ = true;
   }

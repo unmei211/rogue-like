@@ -24,6 +24,7 @@ class EntityManager {
     return this;
   }
   EntityManager* DeleteAll() {
+    last_entity_id = 1;
     entities_.clear();
     return this;
   }

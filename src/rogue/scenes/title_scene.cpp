@@ -8,8 +8,6 @@ void TitleScene::OnRender() {
   terminal_print(1, 1, "Beef-Like game\nPress Enter to start");
   if (controls_.IsPressed(TK_ENTER)) {
     ctx_->scene_ = "game";
-  } else if (controls_.IsPressed(TK_K)) {
-    ctx_->scene_ = "game_over";
   }
   terminal_refresh();
 }

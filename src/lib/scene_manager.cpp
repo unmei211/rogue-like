@@ -26,7 +26,7 @@ void SceneManager::OnExit() const {
   }
 }
 
-void SceneManager::Put(const std::string &name, IScene *scene) {
+void SceneManager::Put(const std::string &name, IScene* const scene) {
   scenes_[name] = std::unique_ptr<IScene>(scene);
 }
 

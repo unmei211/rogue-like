@@ -9,9 +9,10 @@
 #include "lib/utils/controls.h"
 
 class GameScene : public IScene {
-  const Engine engine;
+  Engine engine{};
+  // Engine engine{};
   const Controls& controls_;
-  const std::string first_map_path = "/home/unmei/Projects/Other/rogue-like/include/rogue/maps/first_map";
+  const std::string first_map_path = "/home/unmei/Projects/GitHub/rogue-like/include/rogue/maps/first_map";
   std::vector<std::vector<char>> game_map_;
   EntityCreator entity_creator_;
 

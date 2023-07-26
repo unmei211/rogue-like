@@ -4,7 +4,8 @@
 #include "rogue/components/rigid_body_component.h"
 #include "rogue/entity-filters/filters.h"
 
-PlayerRigidCollisionsSystem::PlayerRigidCollisionsSystem(EntityManager* entity_manager, SystemManager* system_manager)
+PlayerRigidCollisionsSystem::PlayerRigidCollisionsSystem(EntityManager* const entity_manager,
+                                                         SystemManager* const system_manager)
     : ISystem(entity_manager, system_manager) {}
 
 void PlayerRigidCollisionsSystem::OnRigidCollisions(Entity* entity) {

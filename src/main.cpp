@@ -30,8 +30,8 @@ int main() {
 
     sm.OnRender();
     controls.Reset();
-    terminal_refresh();
+    // terminal_refresh();
   }
-
+  sm.OnExit();
   terminal_close();
 }

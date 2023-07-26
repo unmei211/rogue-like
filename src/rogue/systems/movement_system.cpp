@@ -15,9 +15,6 @@ void MovementSystem::OnUpdate() {
       auto mc = entity.Get<MovementComponent>();
 
       tc->pos_ += mc->direction_ * mc->speed_;
-      if (HasMovementsCount(entity) && entity.Get<MovementComponent>()->direction_ != ZeroVec2) {
-        entity.Get<MovementsCountComponent>()->count_++;
-      }
     }
   }
 }
