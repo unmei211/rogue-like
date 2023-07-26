@@ -27,7 +27,7 @@
 #include "rogue/components/wallet_component.h"
 class EntityCreator {
  private:
-  void CreatePlayer(Entity* player, Vec2 transform) {
+  static void CreatePlayer(Entity* player, Vec2 transform) {
     player->Add<TransformComponent>(transform);
     player->Add<TextureComponent>('@');
     player->Add<ColliderComponent>(OnesVec2, ZeroVec2);
@@ -40,7 +40,7 @@ class EntityCreator {
     player->Add<StomachComponent>();
     player->Add<RigidBodyComponent>(false);
   }
-  void CreateCoin(Entity* coin, Vec2 transform) {
+  static void CreateCoin(Entity* coin, Vec2 transform) {
     coin->Add<TransformComponent>(transform);
     coin->Add<TextureComponent>('$');
     coin->Add<ColliderComponent>(OnesVec2, ZeroVec2);
@@ -49,14 +49,14 @@ class EntityCreator {
     coin->Add<CoinComponent>();
     coin->Add<LootComponent>();
   }
-  void CreateWall(Entity* wall, Vec2 transform) {
+  static void CreateWall(Entity* wall, Vec2 transform) {
     wall->Add<WallComponent>();
     wall->Add<TransformComponent>(transform);
     wall->Add<TextureComponent>('#');
     wall->Add<ColliderComponent>(OnesVec2, ZeroVec2);
     wall->Add<RigidBodyComponent>();
   }
-  void CreateFood(Entity* food, Vec2 transform, std::string name) {
+  static void CreateFood(Entity* food, Vec2 transform, std::string name) {
     food->Add<LootComponent>();
     food->Add<TransformComponent>(transform);
     food->Add<TextureComponent>('%');
@@ -67,7 +67,7 @@ class EntityCreator {
   }
 
  public:
-  Entity* CreateEntity(Entity* entity, std::type_index tag, Vec2 transfrom) {
+  static Entity* CreateEntity(Entity* entity, std::type_index tag, Vec2 transfrom) {
     if (tag == typeid(PlayerComponent)) {
       CreatePlayer(entity, transfrom);
     } else if (tag == typeid(CoinComponent)) {
@@ -77,9 +77,9 @@ class EntityCreator {
     }
     return entity;
   }
-  Entity* CreateEntity(Entity* entity, std::type_index tag, Vec2 transfrom, std::string name) {
+  static Entity* CreateEntity(Entity* entity, std::type_index tag, Vec2 transform, std::string name) {
     if (tag == typeid(FoodComponent)) {
-      CreateFood(entity, transfrom, name);
+      CreateFood(entity, transform, name);
     }
     return entity;
   }

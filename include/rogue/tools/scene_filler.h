@@ -35,7 +35,6 @@ class SceneFiller {
                                        Vec2(static_cast<int>(j), static_cast<int>(i)), "mango");
         }
       }
-      std::cout << std::endl;
     }
   }
 };

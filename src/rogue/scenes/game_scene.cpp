@@ -1,7 +1,3 @@
-//
-// Created by unmei on 7/22/23.
-//
-
 #include "rogue/scenes/game_scene.h"
 
 #include "rogue/components/collider_component.h"

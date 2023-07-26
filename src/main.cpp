@@ -21,7 +21,7 @@ int main() {
   sm.Put("game", new GameScene(&ctx, controls));
   sm.Put("game_over", new GameOverScene(&ctx, controls));
 
-  ctx.scene_ = "game";
+  ctx.scene_ = "title";
   while (true) {
     controls.OnUpdate();
     if (controls.IsPressed(TK_CLOSE) || controls.IsPressed(TK_ESCAPE)) {
