@@ -34,6 +34,7 @@ class SystemManager {
 
   SystemManager *DeleteAll() {
     systems_.clear();
+    priority_.clear();
     return this;
   }
 

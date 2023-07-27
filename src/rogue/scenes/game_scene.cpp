@@ -39,37 +39,12 @@
 GameScene::GameScene(Context *ctx, const Controls &controls) : IScene(ctx), controls_(controls) {}
 
 void GameScene::OnCreate() {
-  // engine = new Engine;
+  //  engine = new Engine;
   terminal_composition(TK_ON);
   SceneFiller scene_filler(engine.GetMapReader());
   scene_filler.InitMap(&first_map_path);
   game_map_ = scene_filler.GetMap();
   scene_filler.Fill(engine.GetEntityManager(), &entity_creator_);
-  //  {
-  //    auto player = engine.GetEntityManager()->CreateEntity();
-  //    player->Add<TransformComponent>(Vec2(5, 5));
-  //    player->Add<TextureComponent>('@');
-  //    player->Add<ColliderComponent>(OnesVec2, ZeroVec2);
-  //    player->Add<MovementComponent>(OnesVec2, ZeroVec2);
-  //    player->Add<PlayerControlComponent>(TK_RIGHT, TK_LEFT, TK_DOWN, TK_UP, TK_Q);
-  //    player->Add<LiftAbilityComponent>();
-  //    player->Add<WalletComponent>();
-  //    player->Add<MovementsCountComponent>(10);
-  //    player->Add<PlayerComponent>();
-  //    player->Add<StomachComponent>();
-  //    player->Add<RigidBodyComponent>(false);
-  //  }
-  //
-  //  {
-  //    auto coin = engine.GetEntityManager()->CreateEntity();
-  //    coin->Add<TransformComponent>(Vec2(5, 6));
-  //    coin->Add<TextureComponent>('$');
-  //    coin->Add<ColliderComponent>(OnesVec2, ZeroVec2);
-  //    coin->Add<TakeableComponent>();
-  //    coin->Add<CostComponent>();
-  //    coin->Add<CoinComponent>();
-  //    coin->Add<LootComponent>();
-  //  }
 
   auto sys_man = engine.GetSystemManager();
 
@@ -88,6 +63,7 @@ void GameScene::OnCreate() {
   sys_man->AddSystem<HudRenderSystem>();
   sys_man->AddSystem<RenderingSystem>();
 }
+
 void GameScene::OnRender() {
   engine.OnUpdate();
 }
@@ -95,6 +71,5 @@ void GameScene::OnRender() {
 void GameScene::OnExit() {
   engine.GetEntityManager()->DeleteAll();
   engine.GetSystemManager()->DeleteAll();
-  // delete engine;
   std::cout << "Удаляй" << std::endl;
 }
