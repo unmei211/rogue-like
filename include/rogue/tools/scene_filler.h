@@ -10,7 +10,6 @@ class SceneFiller {
   explicit SceneFiller(MapReader* map_reader) : map_reader_(map_reader) {}
   void InitMap(const std::string* path) {
     map_reader_->Path(path);
-    map_reader_->Read();
   }
   std::vector<std::vector<char>> GetMap() {
     return map_reader_->Get();
@@ -32,7 +31,13 @@ class SceneFiller {
                                        Vec2(static_cast<int>(j), static_cast<int>(i)));
         } else if (c == '%') {
           entity_creator->CreateEntity(entity_manager->CreateEntity(), typeid(FoodComponent),
-                                       Vec2(static_cast<int>(j), static_cast<int>(i)), "mango");
+                                       Vec2(static_cast<int>(j), static_cast<int>(i)), "mango", c);
+        } else if (c == 'g') {
+          entity_creator->CreateEntity(entity_manager->CreateEntity(), typeid(FoodComponent),
+                                       Vec2(static_cast<int>(j), static_cast<int>(i)), "hamburger", c);
+        } else if (c == 'b') {
+          entity_creator->CreateEntity(entity_manager->CreateEntity(), typeid(FoodComponent),
+                                       Vec2(static_cast<int>(j), static_cast<int>(i)), "beef", c);
         }
       }
     }

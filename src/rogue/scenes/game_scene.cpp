@@ -39,7 +39,6 @@
 GameScene::GameScene(Context *ctx, const Controls &controls) : IScene(ctx), controls_(controls) {}
 
 void GameScene::OnCreate() {
-  //  engine = new Engine;
   terminal_composition(TK_ON);
   SceneFiller scene_filler(engine.GetMapReader());
   scene_filler.InitMap(&first_map_path);
@@ -71,5 +70,4 @@ void GameScene::OnRender() {
 void GameScene::OnExit() {
   engine.GetEntityManager()->DeleteAll();
   engine.GetSystemManager()->DeleteAll();
-  std::cout << "Удаляй" << std::endl;
 }

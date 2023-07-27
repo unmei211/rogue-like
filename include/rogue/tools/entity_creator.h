@@ -56,10 +56,10 @@ class EntityCreator {
     wall->Add<ColliderComponent>(OnesVec2, ZeroVec2);
     wall->Add<RigidBodyComponent>();
   }
-  static void CreateFood(Entity* food, Vec2 transform, std::string name) {
+  static void CreateFood(Entity* food, Vec2 transform, std::string name, char c) {
     food->Add<LootComponent>();
     food->Add<TransformComponent>(transform);
-    food->Add<TextureComponent>('%');
+    food->Add<TextureComponent>(c);
     food->Add<ColliderComponent>(OnesVec2, ZeroVec2);
     food->Add<TakeableComponent>();
     food->Add<NameComponent>(name);
@@ -77,9 +77,9 @@ class EntityCreator {
     }
     return entity;
   }
-  static Entity* CreateEntity(Entity* entity, std::type_index tag, Vec2 transform, std::string name) {
+  static Entity* CreateEntity(Entity* entity, std::type_index tag, Vec2 transform, std::string name, char c) {
     if (tag == typeid(FoodComponent)) {
-      CreateFood(entity, transform, name);
+      CreateFood(entity, transform, name, c);
     }
     return entity;
   }

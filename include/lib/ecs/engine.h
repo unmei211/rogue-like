@@ -13,12 +13,14 @@ class Engine {
  private:
   std::unique_ptr<EntityManager> entity_manager_;
   std::unique_ptr<SystemManager> system_manager_;
-  std::unique_ptr<MapReader> map_reader_ = std::make_unique<MapReader>();
+  std::unique_ptr<MapReader> map_reader_ = std::make_unique<MapReader>(25, 80);
+  // MapReader* map_reader_;
 
  public:
   Engine()
       : entity_manager_(std::make_unique<EntityManager>()),
-        system_manager_(std::make_unique<SystemManager>(entity_manager_.get())) {}
+        system_manager_(std::make_unique<SystemManager>(entity_manager_.get())),
+        map_reader_(new MapReader(25, 80)) {}
 
   EntityManager* GetEntityManager() const {
     return entity_manager_.get();
@@ -28,6 +30,7 @@ class Engine {
   }
   MapReader* GetMapReader() const {
     return map_reader_.get();
+    // return map_reader_.get();
   }
   void OnUpdate() const {
     system_manager_->OnUpdate();

@@ -5,21 +5,22 @@
 #include <iostream>
 #include <string>
 #include <vector>
-class MapReader {
-  std::string path_;
 
-  std::vector<std::vector<char>> map_;
+#include "rogue/tools/i_reader.h"
 
+class MapReader : public IReader {
  public:
-  MapReader() {
-    map_ = std::vector<std::vector<char>>(25, std::vector<char>(80));
+  MapReader(int lines, int columns) : IReader(lines, columns) {}
+  ~MapReader() override {
+    Clear();
   }
-  void Read() {
-    if (path_ == "") {
-      return;
-    }
+  void Clear() final {
+    map_.clear();
+  }
+
+  void Path(std::string const *path) final {
     std::ifstream fin;
-    fin.open(path_);
+    fin.open(*path);
     char c;
     int i = 0;
     int j = 0;
@@ -38,11 +39,7 @@ class MapReader {
     fin.close();
   }
 
-  void Path(std::string const *path) {
-    path_ = *path;
-  }
-
-  std::vector<std::vector<char>> Get() {
+  std::vector<std::vector<char>> Get() final {
     return map_;
   }
 };
