@@ -14,8 +14,9 @@ static bool PostFilter(const Entity& entity) {
   return HasLiftAbility(entity) && entity.Get<LiftAbilityComponent>()->AnyPicked();
 }
 
-TakesSystem::TakesSystem(EntityManager* const entity_manager, SystemManager* const system_manager)
+TakesSystem::TakesSystem(EntityManager* const entity_manager, SystemManager* system_manager)
     : ISystem(entity_manager, system_manager) {}
+
 void TakesSystem::PickUp(Entity* picker) {
   if (!(HasCollider(*picker) && picker->Get<ColliderComponent>()->AnyCollision())) {
     return;

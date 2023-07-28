@@ -26,9 +26,7 @@ void TakeFoodSystem::GiveFood(Entity* entity) {
       item->Delete<TakeableComponent>();
       item->Delete<LootComponent>();
       item->Add<ItemComponent>();
-      item->Add<DurabilityComponent>(item->Get<NameComponent>()->name_.length() * 2);
-      item->Add<BreakableComponent>();
-      //
+
       entity->Get<StomachComponent>()->AddFood(item);
       //      // TODO добавление персонажу
     }

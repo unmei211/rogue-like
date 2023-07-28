@@ -4,13 +4,30 @@
 #include "lib/ecs/component.h"
 class DurabilityComponent : public IComponent {
  public:
-  int full_durability_;
-  int current_durability_;
+  int multiplier_;
+  int total_;
+  int total_multiplied_;
+  int current_;
+  int current_multiplied_;
 
-  DurabilityComponent(int full_durability, int current_durability)
-      : full_durability_(full_durability), current_durability_(current_durability) {}
-  explicit DurabilityComponent(int full_durability)
-      : full_durability_(full_durability), current_durability_(full_durability) {}
+  void Subtract(int num) {
+    current_multiplied_--;
+    if (current_multiplied_ % (multiplier_) == 0) {
+      current_--;
+    }
+    // std::cout << current_ << " " << current_multiplied_ << std::endl;
+  }
+  explicit DurabilityComponent(int total, int multiplier, int current)
+      : multiplier_(multiplier), total_(total), current_(current) {
+    total_multiplied_ = total_ * multiplier_;
+    current_multiplied_ = current_ * multiplier_;
+  }
+  explicit DurabilityComponent(int total = 1, int multiplier = 1) : multiplier_(multiplier), total_(total) {
+    current_ = total_;
+    total_multiplied_ = total_ * multiplier_;
+    current_multiplied_ = current_ * multiplier_;
+    std::cout << " " << total_multiplied_ << " " << multiplier_ << " " << total_ << std::endl;
+  }
 };
 
 #endif  // INCLUDE_ROGUE_COMPONENTS_DURABILITY_COMPONENT_H_

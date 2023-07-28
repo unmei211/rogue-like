@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "lib/ecs/system.h"
+#include "lib/ecs/engine.h"
 
 class CollisionSystem : public ISystem {
  public:

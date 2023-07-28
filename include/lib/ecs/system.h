@@ -23,7 +23,6 @@ class ISystem {
   virtual void OnUpdate() {}
   virtual void OnPostUpdate() {}
   static void LogPrint(const std::string &tag) {
-    // std::cout << tag << std::endl;
   }
 
  public:
@@ -43,12 +42,6 @@ class ISystem {
   SystemManager &GetSystemManager() const {
     return *GetSystemManagerPtr();
   }
-  //  EntityCreator *GetEntityCreatorPtr() const {
-  //    return entity_creator_;
-  //  }
-  //  EntityCreator &GetEntityCreator() const {
-  //    return *GetEntityCreatorPtr();
-  //  }
 };
 
 #endif  // INCLUDE_LIB_ECS_SYSTEM_H_

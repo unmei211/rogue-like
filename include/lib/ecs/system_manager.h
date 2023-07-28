@@ -37,14 +37,13 @@ class SystemManager {
     priority_.clear();
     return this;
   }
-
   template<typename System>
-  void Disable() const {
+  void Disable() {
     systems_.at(typeid(System))->is_enabled_ = false;
   }
 
   template<typename System>
-  void Enable() const {
+  void Enable() {
     systems_.at(typeid(System))->is_enabled_ = true;
   }
 

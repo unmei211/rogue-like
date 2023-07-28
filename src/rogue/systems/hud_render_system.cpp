@@ -27,19 +27,20 @@ void HudRenderSystem::OnUpdate() {
         Red red;
         auto food = entity.Get<StomachComponent>()->GetFood();
 
-        terminal_printf(17, 2, "FOOD: x%d", entity.Get<StomachComponent>()->GetSize());
+        terminal_printf(17, 2, "FOOD x%d: ", entity.Get<StomachComponent>()->GetSize());
         if (food != nullptr) {
           auto dur_com = food->Get<DurabilityComponent>();
           int x_hood_food = 26;
-          for (int i = 0; i < (dur_com->full_durability_ / 2) + (dur_com->full_durability_) % 2; i++) {
+          for (int i = 0; i < dur_com->total_; i++) {
             terminal_put(x_hood_food, 2, food->Get<NameComponent>()->name_[i]);
-            if (i >= (dur_com->current_durability_ / 2) + (dur_com->current_durability_ % 2)) {
+            if (i >= dur_com->total_ - (dur_com->total_ - dur_com->current_)) {
               terminal_put_ext(x_hood_food, 2, 0, 0, '-', red.corners_);
               terminal_put_ext(x_hood_food, 2, 0, 1, '-', red.corners_);
               terminal_put_ext(x_hood_food, 2, 0, 2, '-', red.corners_);
             }
             x_hood_food++;
           }
+          terminal_printf(x_hood_food, 2, "  n%d", food->Get<DurabilityComponent>()->multiplier_);
         }
       }
     }

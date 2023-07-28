@@ -40,13 +40,11 @@ GameScene::GameScene(Context *ctx, const Controls &controls) : IScene(ctx), cont
 
 void GameScene::OnCreate() {
   terminal_composition(TK_ON);
-  SceneFiller scene_filler(engine.GetMapReader());
+  SceneFiller scene_filler(engine.GetMapReader(), &entity_creator);
   scene_filler.InitMap(&first_map_path);
   game_map_ = scene_filler.GetMap();
-  scene_filler.Fill(engine.GetEntityManager(), &entity_creator_);
-
+  scene_filler.Fill(engine.GetEntityManager());
   auto sys_man = engine.GetSystemManager();
-
   sys_man->AddSystem<MoveControlSystem>(controls_);
   sys_man->AddSystem<AbilityControlSystem>(controls_);
   sys_man->AddSystem<MovementSystem>();

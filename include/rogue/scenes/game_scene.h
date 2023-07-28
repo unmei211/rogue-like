@@ -12,9 +12,10 @@ class GameScene : public IScene {
   const Engine engine{};
   //  Engine* engine;
   const Controls& controls_;
+  FoodConfig foodConfig;
+  EntityCreator entity_creator = EntityCreator(&foodConfig);
   const std::string first_map_path = "/home/unmei/Projects/Other/rogue-like/include/rogue/maps/first_map";
   std::vector<std::vector<char>> game_map_;
-  EntityCreator entity_creator_;
 
  public:
   GameScene(Context* ctx, const Controls& controls);

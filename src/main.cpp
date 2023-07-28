@@ -27,7 +27,6 @@ int main() {
     if (controls.IsPressed(TK_CLOSE) || controls.IsPressed(TK_ESCAPE)) {
       break;
     }
-
     sm.OnRender();
     controls.Reset();
     // terminal_refresh();

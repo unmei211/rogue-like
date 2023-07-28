@@ -7,9 +7,12 @@
 
 #include "lib/ecs/entity_manager.h"
 #include "lib/math/vec2.h"
+#include "rogue/components/breakable_component.h"
 #include "rogue/components/collider_component.h"
 #include "rogue/components/cost_component.h"
+#include "rogue/components/durability_component.h"
 #include "rogue/components/indicators/movements_count_component.h"
+#include "rogue/components/item_component.h"
 #include "rogue/components/lift_ability_component.h"
 #include "rogue/components/movement_component.h"
 #include "rogue/components/name_component.h"
@@ -25,62 +28,65 @@
 #include "rogue/components/texture_component.h"
 #include "rogue/components/transform_component.h"
 #include "rogue/components/wallet_component.h"
+#include "rogue/tools/config/food_config.h"
 class EntityCreator {
- private:
-  static void CreatePlayer(Entity* player, Vec2 transform) {
-    player->Add<TransformComponent>(transform);
-    player->Add<TextureComponent>('@');
-    player->Add<ColliderComponent>(OnesVec2, ZeroVec2);
-    player->Add<MovementComponent>(OnesVec2, ZeroVec2);
-    player->Add<PlayerControlComponent>(TK_RIGHT, TK_LEFT, TK_DOWN, TK_UP, TK_Q);
-    player->Add<LiftAbilityComponent>();
-    player->Add<WalletComponent>();
-    player->Add<MovementsCountComponent>();
-    player->Add<PlayerComponent>();
-    player->Add<StomachComponent>();
-    player->Add<RigidBodyComponent>(false);
-  }
-  static void CreateCoin(Entity* coin, Vec2 transform) {
-    coin->Add<TransformComponent>(transform);
-    coin->Add<TextureComponent>('$');
-    coin->Add<ColliderComponent>(OnesVec2, ZeroVec2);
-    coin->Add<TakeableComponent>();
-    coin->Add<CostComponent>();
-    coin->Add<CoinComponent>();
-    coin->Add<LootComponent>();
-  }
-  static void CreateWall(Entity* wall, Vec2 transform) {
-    wall->Add<WallComponent>();
-    wall->Add<TransformComponent>(transform);
-    wall->Add<TextureComponent>('#');
-    wall->Add<ColliderComponent>(OnesVec2, ZeroVec2);
-    wall->Add<RigidBodyComponent>();
-  }
-  static void CreateFood(Entity* food, Vec2 transform, std::string name, char c) {
-    food->Add<LootComponent>();
-    food->Add<TransformComponent>(transform);
-    food->Add<TextureComponent>(c);
-    food->Add<ColliderComponent>(OnesVec2, ZeroVec2);
-    food->Add<TakeableComponent>();
-    food->Add<NameComponent>(name);
-    food->Add<FoodComponent>();
+  FoodConfig* foodConfig_;
+  void AddFoodAttributes(Entity* entity, char c) {
+    entity->Add<TextureComponent>(c);
+    entity->Add<NameComponent>(*foodConfig_->GetName(c));
+    std::cout << (*foodConfig_->GetName(c)).length();
+    entity->Add<DurabilityComponent>((*foodConfig_->GetName(c)).length(), foodConfig_->GetNutritions(c));
+    entity->Add<BreakableComponent>();
+    entity->Add<FoodComponent>();
   }
 
  public:
-  static Entity* CreateEntity(Entity* entity, std::type_index tag, Vec2 transfrom) {
-    if (tag == typeid(PlayerComponent)) {
-      CreatePlayer(entity, transfrom);
-    } else if (tag == typeid(CoinComponent)) {
-      CreateCoin(entity, transfrom);
-    } else if (tag == typeid(WallComponent)) {
-      CreateWall(entity, transfrom);
-    }
+  explicit EntityCreator(FoodConfig* const foodConfig) : foodConfig_(foodConfig) {}
+  Entity* CreatePlayer(Entity* entity, Entity* food1, Entity* food2, Vec2 transform) {
+    entity->Add<TransformComponent>(transform);
+    entity->Add<TextureComponent>('@');
+    entity->Add<ColliderComponent>(OnesVec2, ZeroVec2);
+    entity->Add<MovementComponent>(OnesVec2, ZeroVec2);
+    entity->Add<PlayerControlComponent>(TK_RIGHT, TK_LEFT, TK_DOWN, TK_UP, TK_Q);
+    entity->Add<LiftAbilityComponent>();
+    entity->Add<WalletComponent>();
+    entity->Add<MovementsCountComponent>();
+    entity->Add<PlayerComponent>();
+    entity->Add<StomachComponent>();
+    entity->Get<StomachComponent>()->AddFood(food1);
+    entity->Get<StomachComponent>()->AddFood(food2);
+    entity->Add<RigidBodyComponent>(false);
     return entity;
   }
-  static Entity* CreateEntity(Entity* entity, std::type_index tag, Vec2 transform, std::string name, char c) {
-    if (tag == typeid(FoodComponent)) {
-      CreateFood(entity, transform, name, c);
-    }
+  Entity* CreateCoin(Entity* entity, Vec2 transform) {
+    entity->Add<TransformComponent>(transform);
+    entity->Add<TextureComponent>('$');
+    entity->Add<ColliderComponent>(OnesVec2, ZeroVec2);
+    entity->Add<TakeableComponent>();
+    entity->Add<CostComponent>();
+    entity->Add<CoinComponent>();
+    entity->Add<LootComponent>();
+    return entity;
+  }
+  Entity* CreateWall(Entity* entity, Vec2 transform) {
+    entity->Add<WallComponent>();
+    entity->Add<TransformComponent>(transform);
+    entity->Add<TextureComponent>('#');
+    entity->Add<ColliderComponent>(OnesVec2, ZeroVec2);
+    entity->Add<RigidBodyComponent>();
+    return entity;
+  }
+  Entity* CreateFoodOnField(Entity* entity, Vec2 transform, char c) {
+    AddFoodAttributes(entity, c);
+    entity->Add<LootComponent>();
+    entity->Add<TransformComponent>(transform);
+    entity->Add<ColliderComponent>(OnesVec2, ZeroVec2);
+    entity->Add<TakeableComponent>();
+    return entity;
+  }
+  Entity* CreateFoodItem(Entity* entity, char c) {
+    AddFoodAttributes(entity, c);
+    entity->Add<ItemComponent>();
     return entity;
   }
 };
