@@ -1,71 +1,34 @@
 #include "rogue/scenes/game_scene.h"
 
-#include "rogue/components/collider_component.h"
-#include "rogue/components/cost_component.h"
-#include "rogue/components/indicators/movements_count_component.h"
-#include "rogue/components/item_component.h"
-#include "rogue/components/lift_ability_component.h"
-#include "rogue/components/movement_component.h"
-#include "rogue/components/name_component.h"
-#include "rogue/components/player_control_component.h"
-#include "rogue/components/removability_component.h"
-#include "rogue/components/rigid_body_component.h"
-#include "rogue/components/stomach_component.h"
-#include "rogue/components/tags/coin_component.h"
-#include "rogue/components/tags/food_component.h"
-#include "rogue/components/tags/loot_component.h"
-#include "rogue/components/tags/player_component.h"
-#include "rogue/components/tags/wall_component.h"
-#include "rogue/components/takeable_component.h"
-#include "rogue/components/texture_component.h"
-#include "rogue/components/transform_component.h"
-#include "rogue/components/wallet_component.h"
-#include "rogue/systems/ability_control_system.h"
-#include "rogue/systems/collision_system.h"
-#include "rogue/systems/entity_deletion_system.h"
-#include "rogue/systems/game_over_system.h"
-#include "rogue/systems/hud_render_system.h"
-#include "rogue/systems/move_control_system.h"
-#include "rogue/systems/movement_system.h"
-#include "rogue/systems/player_food_system.h"
-#include "rogue/systems/player_indicators_system.h"
-#include "rogue/systems/player_rigid_collisions_system.h"
-#include "rogue/systems/rendering_system.h"
-#include "rogue/systems/take_coin_system.h"
-#include "rogue/systems/take_food_system.h"
-#include "rogue/systems/takes_system.h"
-#include "rogue/tools/scene_filler.h"
+#include <string>
 
+#include "rogue/systems/game_over_system.h"
+#include "rogue/systems/move_control_system.h"
+#include "rogue/tools/scene_filler.h"
 GameScene::GameScene(Context *ctx, const Controls &controls) : IScene(ctx), controls_(controls) {}
 
 void GameScene::OnCreate() {
-  terminal_composition(TK_ON);
-  SceneFiller scene_filler(engine.GetMapReader(), &entity_creator);
-  scene_filler.InitMap(&first_map_path);
-  game_map_ = scene_filler.GetMap();
-  scene_filler.Fill(engine.GetEntityManager());
-  auto sys_man = engine.GetSystemManager();
-  sys_man->AddSystem<MoveControlSystem>(controls_);
-  sys_man->AddSystem<AbilityControlSystem>(controls_);
-  sys_man->AddSystem<MovementSystem>();
-  sys_man->AddSystem<CollisionSystem>();
-  sys_man->AddSystem<PlayerRigidCollisionsSystem>();
-  sys_man->AddSystem<TakesSystem>();
-  sys_man->AddSystem<TakeCoinSystem>();
-  sys_man->AddSystem<PlayerFoodSystem>();
-  sys_man->AddSystem<TakeFoodSystem>();
-  sys_man->AddSystem<PlayerIndicatorsSystem>();
-  sys_man->AddSystem<GameOverSystem>(ctx_);
-  sys_man->AddSystem<EntityDeletionSystem>();
-  sys_man->AddSystem<HudRenderSystem>();
-  sys_man->AddSystem<RenderingSystem>();
+  player_indicators_data_ = PlayerIndicatorsData();
+  player_food_data_ = PlayerFoodData();
+  levels_manager_ = LevelsManager(&level_transitions_config_, engine.GetEntityManager(), engine.GetSystemManager());
+  scene_filler_ = SceneFiller(&entity_creator, engine.GetEntityManager(), &food_config_, &player_indicators_data_,
+                              &player_food_data_, &level_transitions_config_);
+  levels_manager_.SetFiller(&scene_filler_);
+  levels_manager_.SetLoadLevelName("level1");
 }
 
 void GameScene::OnRender() {
+  if (levels_manager_.ChangeLevel()) {
+    levels_manager_.LoadLevel(controls_, ctx_, &player_indicators_data_, &player_food_data_);
+  }
   engine.OnUpdate();
 }
 
 void GameScene::OnExit() {
+  StatsParser::WriteDown(
+      "/home/unmei/Projects/Gardens/starovoytov.vladislav-game/include/rogue/tools/data/win_screen_stats",
+      StatsParser::CastToVec(player_indicators_data_.steps_count_, player_indicators_data_.hp_current_,
+                             player_indicators_data_.money_));
   engine.GetEntityManager()->DeleteAll();
   engine.GetSystemManager()->DeleteAll();
 }

@@ -4,9 +4,13 @@
 #include <string>
 
 #include "lib/ecs/system.h"
+#include "rogue/tools/colliders_map.h"
+
 class MovementSystem : public ISystem {
+  CollidersMap* const colliders_map_;
+
  public:
-  MovementSystem(EntityManager* entity_manager, SystemManager* system_manager);
+  MovementSystem(EntityManager* entity_manager, SystemManager* system_manager, CollidersMap* colliders_map);
 
  protected:
   std::string tag_ = "MovementSystem";

@@ -15,7 +15,6 @@ class DurabilityComponent : public IComponent {
     if (current_multiplied_ % (multiplier_) == 0) {
       current_--;
     }
-    // std::cout << current_ << " " << current_multiplied_ << std::endl;
   }
   explicit DurabilityComponent(int total, int multiplier, int current)
       : multiplier_(multiplier), total_(total), current_(current) {
@@ -26,7 +25,6 @@ class DurabilityComponent : public IComponent {
     current_ = total_;
     total_multiplied_ = total_ * multiplier_;
     current_multiplied_ = current_ * multiplier_;
-    std::cout << " " << total_multiplied_ << " " << multiplier_ << " " << total_ << std::endl;
   }
 };
 

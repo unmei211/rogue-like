@@ -7,18 +7,21 @@
 #include <vector>
 
 #include "rogue/tools/i_reader.h"
-
 class MapReader : public IReader {
+  std::vector<std::vector<char>> map_;
+
  public:
-  MapReader(int lines, int columns) : IReader(lines, columns) {}
+  MapReader(int lines, int columns) : map_(std::vector<std::vector<char>>(lines, std::vector<char>(columns))) {}
   ~MapReader() override {
     Clear();
   }
   void Clear() final {
     map_.clear();
   }
+  // TODO:
+  void WriteToPath(const std::string& path) final{};
 
-  void Path(std::string const *path) final {
+  void ReadPath(std::string const* path) final {
     std::ifstream fin;
     fin.open(*path);
     char c;
@@ -39,7 +42,7 @@ class MapReader : public IReader {
     fin.close();
   }
 
-  std::vector<std::vector<char>> Get() final {
+  std::vector<std::vector<char>> Get() {
     return map_;
   }
 };

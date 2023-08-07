@@ -15,14 +15,17 @@ class ISystem {
   // std::string tag_;
   EntityManager *const entity_manager_;
   SystemManager *const system_manager_;
-  // EntityCreator *const entity_creator_;
 
  protected:
   std::string tag_ = "";
   virtual void OnPreUpdate() {}
   virtual void OnUpdate() {}
   virtual void OnPostUpdate() {}
+  virtual void SetStates(bool states) {
+    is_enabled_ = states;
+  }
   static void LogPrint(const std::string &tag) {
+    // std::cout << tag << std::endl;
   }
 
  public:

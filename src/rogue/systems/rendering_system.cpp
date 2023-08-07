@@ -20,12 +20,16 @@ void RenderingSystem::OnUpdate() {
 }
 
 void RenderingSystem::OnPreUpdate() {
-  LogPrint(tag_);
+  begin = std::chrono::high_resolution_clock::now();
+  LogPrint(tag_ + " OnPreUpdate");
   terminal_clear();
 }
 
 void RenderingSystem::OnPostUpdate() {
-  LogPrint(tag_);
+  LogPrint(tag_ + " OnPostUpdate");
+  end = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<float> duration = end - begin;
+  terminal_printf(50, 1, "FPS: %f", 1.0f / duration.count());
   terminal_refresh();
 }
 RenderingSystem::RenderingSystem(EntityManager *const entity_manager, SystemManager *const system_manager)

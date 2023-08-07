@@ -38,7 +38,9 @@ class StomachComponent : public IComponent {
     food_queue.pop();
     food_queue.push(temp);
   }
-
+  std::queue<Entity*>& GetFoodQueue() {
+    return food_queue;
+  }
   int GetSize() {
     return static_cast<int>(food_queue.size());
   }

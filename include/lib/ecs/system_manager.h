@@ -29,6 +29,11 @@ class SystemManager {
   template<typename System>
   SystemManager *Delete() {
     systems_.erase(typeid(System));
+    for (auto iter = priority_.cbegin(); iter != priority_.cend(); iter++) {
+      if (*iter == typeid(System)) {
+        priority_.erase(iter);
+      }
+    }
     return this;
   }
 
@@ -37,43 +42,44 @@ class SystemManager {
     priority_.clear();
     return this;
   }
+
+  void DisableAll() {
+    for (auto &i : systems_) {
+      i.second.get()->SetStates(false);
+    }
+  }
+  void EnableAll() {
+    for (auto &i : systems_) {
+      i.second.get()->SetStates(true);
+    }
+  }
+
   template<typename System>
   void Disable() {
-    systems_.at(typeid(System))->is_enabled_ = false;
+    systems_.at(typeid(System))->SetStates(false);
   }
 
   template<typename System>
   void Enable() {
-    systems_.at(typeid(System))->is_enabled_ = true;
+    systems_.at(typeid(System))->SetStates(true);
   }
 
   void OnUpdate() {
-    //    for (size_t i = 0; i < priority_.size(); i++) {
-    //      std::cout << priority_[i].name() << " [" << i + 1 << "]  ";
-    //    }
-    //    std::cout << "\n";
-    //    std::cout << "\tOnPreUpdate:" << std::endl;
-
     for (auto &p : priority_) {
       if (systems_[p]->is_enabled_) {
         systems_[p]->OnPreUpdate();
       }
     }
-    //    std::cout << "-----------------------------------------------" << std::endl;
-    //    std::cout << "\tOnUpdate: " << std::endl;
     for (auto &p : priority_) {
       if (systems_[p]->is_enabled_) {
         systems_[p]->OnUpdate();
       }
     }
-    //    std::cout << "-----------------------------------------------" << std::endl;
-    //    std::cout << "\tOnPostUpdate:" << std::endl;
     for (auto &p : priority_) {
       if (systems_[p]->is_enabled_) {
         systems_[p]->OnPostUpdate();
       }
     }
-    //    std::cout << "||||||||||||||||||||||||||||||||||||||||||||||||||||" << std::endl;
   }
 };
 

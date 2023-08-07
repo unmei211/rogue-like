@@ -5,6 +5,7 @@
 
 #include "lib/ecs/entity.h"
 #include "lib/ecs/system.h"
+#include "rogue/tools/colliders_map.h"
 class TakeCoinSystem : public ISystem {
  private:
   void GiveCoins(Entity* entity);

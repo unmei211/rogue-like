@@ -14,11 +14,45 @@ class RigidBodyComponent : public IComponent {
   bool AnyRigidCollisions() const {
     return !rigid_collisions_.empty();
   }
-
+  void DeleteCollisionWithID(size_t ID) {
+    if (!AnyRigidCollisions()) {
+      return;
+    }
+    auto collisions = GetRigidCollisions();
+    for (auto entity : collisions) {
+      if (entity->GetId() == ID) {
+        collisions.erase(entity);
+      }
+    }
+  }
   void RigidCollide(Entity* entity) {
     rigid_collisions_.insert(entity);
   }
-
+  template<typename Component>
+  bool CollisionWith() {
+    if (!AnyRigidCollisions()) {
+      return false;
+    }
+    auto collisions = GetRigidCollisions();
+    for (auto entity : collisions) {
+      if (entity->Contains<Component>()) {
+        return true;
+      }
+    }
+    return false;
+  }
+  [[nodiscard]] bool CollisionWithID(size_t ID) const {
+    if (!AnyRigidCollisions()) {
+      return false;
+    }
+    auto collisions = GetRigidCollisions();
+    for (auto entity : collisions) {
+      if (entity->GetId() == ID) {
+        return true;
+      }
+    }
+    return false;
+  }
   const std::set<Entity*>& GetRigidCollisions() const {
     return rigid_collisions_;
   }

@@ -1,9 +1,15 @@
 #include "rogue/entity-filters/filters.h"
 
 #include <iostream>
+#include <string>
 
-#include "rogue/components/item_component.h"
 #include "rogue/components/rigid_body_component.h"
+#include "rogue/components/tags/door_component.h"
+#include "rogue/components/tags/enemy_component.h"
+#include "rogue/components/tags/item_component.h"
+#include "rogue/components/tags/marionette_component.h"
+#include "rogue/components/tags/target_component.h"
+#include "rogue/components/tags/wall_component.h"
 
 // Entity is...
 bool IsPlayer(const Entity &entity) {
@@ -19,6 +25,23 @@ bool IsFood(const Entity &entity) {
 
 bool IsItem(const Entity &entity) {
   return entity.Contains<ItemComponent>();
+}
+bool IsDoor(const Entity &entity) {
+  return entity.Contains<DoorComponent>();
+}
+bool IsMarionette(const Entity &entity) {
+  return entity.Contains<MarionetteComponent>();
+}
+bool IsEnemy(const Entity &entity) {
+  return entity.Contains<EnemyComponent>();
+}
+
+bool IsWall(const Entity &entity) {
+  return entity.Contains<WallComponent>();
+}
+
+bool IsTarget(const Entity &entity) {
+  return entity.Contains<TargetComponent>();
 }
 
 // Entity ignore
@@ -74,4 +97,3 @@ bool HasTakeable(const Entity &entity) {
 bool HasRigidBody(const Entity &entity) {
   return entity.Contains<RigidBodyComponent>();
 }
-

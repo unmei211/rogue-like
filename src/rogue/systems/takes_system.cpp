@@ -22,11 +22,14 @@ void TakesSystem::PickUp(Entity* picker) {
     return;
   }
   auto cc = picker->Get<ColliderComponent>();
+  auto lac = picker->Get<LiftAbilityComponent>();
   for (auto& collisions : cc->GetCollisions()) {
-    if (!Deleted(*collisions) && HasTakeable(*collisions) && !Taken(*collisions)) {
-      picker->Get<LiftAbilityComponent>()->PickUp(collisions);
-      collisions->Get<TakeableComponent>()->picked_up_ = true;
-      std::cout << collisions->GetId() << " подобран" << std::endl;
+    for (auto filter_type : lac->lifted_filter_) {
+      if (collisions->ContainsAsTypeID(filter_type) && !Deleted(*collisions) && HasTakeable(*collisions) &&
+          !Taken(*collisions)) {
+        lac->PickUp(collisions);
+        collisions->Get<TakeableComponent>()->picked_up_ = true;
+      }
     }
   }
 }

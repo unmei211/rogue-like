@@ -13,6 +13,7 @@
 #include "rogue/components/stomach_component.h"
 #include "rogue/components/tags/coin_component.h"
 #include "rogue/components/tags/food_component.h"
+#include "rogue/components/tags/marionette_component.h"
 #include "rogue/components/tags/player_component.h"
 #include "rogue/components/takeable_component.h"
 #include "rogue/components/texture_component.h"
@@ -24,7 +25,11 @@ bool IsPlayer(const Entity &entity);
 bool IsCoin(const Entity &entity);
 bool IsFood(const Entity &entity);
 bool IsItem(const Entity &entity);
-
+bool IsDoor(const Entity &entity);
+bool IsMarionette(const Entity &entity);
+bool IsEnemy(const Entity &entity);
+bool IsWall(const Entity &entity);
+bool IsTarget(const Entity &entity);
 // Entity ignore
 bool Deleted(const Entity &entity);
 bool Taken(const Entity &entity);

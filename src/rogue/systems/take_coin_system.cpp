@@ -7,7 +7,7 @@
 #include "rogue/entity-filters/filters.h"
 
 static bool Filter(const Entity& entity) {
-  return IsPlayer(entity);
+  return HasLiftAbility(entity);
 }
 
 void TakeCoinSystem::GiveCoins(Entity* entity) {

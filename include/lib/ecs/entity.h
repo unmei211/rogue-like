@@ -32,15 +32,18 @@ class Entity {
     auto c = components_.at(typeid(Component)).get();
     return dynamic_cast<Component*>(c);
   }
-
+  bool ContainsAsTypeID(std::type_index idx) const {
+    return components_.count(idx) != 0;
+  }
   template<typename Component>
   bool Contains() const {
     return components_.count(typeid(Component)) != 0;
   }
 
   template<typename Component>
-  void Delete() {
+  Entity* Delete() {
     components_.erase(typeid(Component));
+    return this;
   }
 };
 

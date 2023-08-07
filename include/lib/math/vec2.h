@@ -5,6 +5,8 @@
 #include <tuple>
 #include <utility>
 
+#include "lib/math/to_pos.h"
+
 class Vec2 {
  public:
   float x_;
@@ -53,6 +55,10 @@ class Vec2 {
     return *this;
   }
 
+  Vec2 VecToPos() const {
+    return {ToPos(x_), ToPos(y_)};
+  }
+
   double DotProd(const Vec2 &rhs) const {
     return x_ * rhs.x_ + y_ * rhs.y_;
   }
@@ -68,7 +74,9 @@ class Vec2 {
   double Magnitude() const {
     return std::sqrt(x_ * x_ + y_ * y_);
   }
-
+  double Distance(const Vec2 &rhs) const {
+    return sqrt((rhs.x_ - x_) * (rhs.x_ - x_) + (rhs.y_ - y_) * (rhs.y_ - y_));
+  }
   Vec2 Normalize() {
     auto m = Magnitude();
     if (m <= 0.000000001) {
@@ -79,6 +87,10 @@ class Vec2 {
       y_ /= m;
     }
     return *this;
+  }
+  std::pair<int, int> GetPosPair() {
+    std::pair<int, int> pos(ToPos(x_), ToPos(y_));
+    return pos;
   }
 };
 

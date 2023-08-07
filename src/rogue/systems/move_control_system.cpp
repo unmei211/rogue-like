@@ -7,38 +7,39 @@
 #include "rogue/components/player_control_component.h"
 #include "rogue/entity-filters/filters.h"
 
-// Maybe need walking component
-static bool Filter(const Entity &entity) {
-  return HasMovement(entity) && HasTransform(entity) && HasPlayerControl(entity);
-}
+MoveControlSystem::MoveControlSystem(EntityManager* entity_manager, SystemManager* system_manager,
+                                     const Controls& controls, EntityHandler* entity_handler)
+    : ISystem(entity_manager, system_manager), controls_(controls), entity_handler_(entity_handler) {}
 
-MoveControlSystem::MoveControlSystem(EntityManager *const entity_manager, SystemManager *const system_manager,
-                                     const Controls &controls)
-    : ISystem(entity_manager, system_manager), controls_(controls) {}
-
-void MoveControlSystem::OnUpdateEntity(Entity *entity) const {
+void MoveControlSystem::OnUpdateEntity(Entity* entity) const {
+  if (!(HasMovement(*entity) && HasTransform(*entity))) {
+    return;
+  }
   auto mc = entity->Get<MovementComponent>();
   auto pcc = entity->Get<PlayerControlComponent>();
   if (mc->direction_ != ZeroVec2) {
     mc->direction_ = ZeroVec2;
   }
-
+  auto action = entity->Get<ActionComponent>();
   if (controls_.IsPressed(pcc->up_button_)) {
     mc->direction_ = UpVec2;
+    action->acted_ = true;
   } else if (controls_.IsPressed(pcc->down_button_)) {
     mc->direction_ = DownVec2;
+    action->acted_ = true;
   } else if (controls_.IsPressed(pcc->left_button_)) {
     mc->direction_ = LeftVec2;
+    action->acted_ = true;
   } else if (controls_.IsPressed(pcc->right_button_)) {
     mc->direction_ = RightVec2;
+    action->acted_ = true;
+  }
+  if (mc->direction_ != ZeroVec2 && entity->Contains<ActionComponent>()) {
+    entity->Get<ActionComponent>()->old_direction_ = entity->Get<MovementComponent>()->direction_;
   }
 }
 
 void MoveControlSystem::OnUpdate() {
   LogPrint(tag_);
-  for (auto &entity : GetEntityManager()) {
-    if (Filter(entity)) {
-      OnUpdateEntity(&entity);
-    }
-  }
+  OnUpdateEntity(entity_handler_->having_control_);
 }
