@@ -1,7 +1,0 @@
-#ifndef INCLUDE_ROGUE_COMPONENTS_TAGS_PLAYER_COMPONENT_H_
-#define INCLUDE_ROGUE_COMPONENTS_TAGS_PLAYER_COMPONENT_H_
-
-#include "lib/ecs/component.h"
-class PlayerComponent : public IComponent {};
-
-#endif  // INCLUDE_ROGUE_COMPONENTS_TAGS_PLAYER_COMPONENT_H_

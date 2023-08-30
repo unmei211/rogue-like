@@ -1,7 +1,0 @@
-#ifndef INCLUDE_ROGUE_COMPONENTS_REMOVABILITY_COMPONENT_H_
-#define INCLUDE_ROGUE_COMPONENTS_REMOVABILITY_COMPONENT_H_
-
-#include "lib/ecs/component.h"
-class RemovabilityComponent : public IComponent {};
-
-#endif  // INCLUDE_ROGUE_COMPONENTS_REMOVABILITY_COMPONENT_H_

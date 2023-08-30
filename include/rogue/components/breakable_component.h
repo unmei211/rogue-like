@@ -1,7 +1,0 @@
-#ifndef INCLUDE_ROGUE_COMPONENTS_BREAKABLE_COMPONENT_H_
-#define INCLUDE_ROGUE_COMPONENTS_BREAKABLE_COMPONENT_H_
-
-#include "lib/ecs/component.h"
-class BreakableComponent : public IComponent {};
-
-#endif  // INCLUDE_ROGUE_COMPONENTS_BREAKABLE_COMPONENT_H_
