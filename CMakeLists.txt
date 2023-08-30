@@ -18,7 +18,28 @@ set(PROJECT_SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
 file(GLOB_RECURSE HEADERS ${PROJECT_HEADERS_DIR}/*h)
 file(GLOB_RECURSE SOURCES ${PROJECT_SOURCES_DIR}/*cpp)
 
-add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES})
+add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES}
+        include/rogue/tools/data/field_food_data.h
+        include/rogue/tools/EntityMapsHandler.h
+        include/rogue/tools/map-random/floor.h
+        include/rogue/tools/map-random/map_generator.h
+        include/rogue/tools/map-random/floor_filler.h
+        include/rogue/tools/map-random/tunnel.h
+        include/rogue/tools/map-random/tunnel_filler.h
+        src/rogue/math/Rand.cpp
+        include/rogue/math/Rand.h
+        include/rogue/tools/map-random/gen_fun.h
+        include/rogue/tools/map-random/map_bypass.h
+        include/rogue/tools/graphics_changer.h
+        include/rogue/tools/config/graphics_associate.h
+        src/rogue/systems/floor_traps_system.cpp
+        include/rogue/systems/floor_traps_system.h
+        include/rogue/components/tags/trap_component.h
+        include/rogue/components/attributes/traps_slot_component.h
+        src/rogue/systems/take_trap_system.cpp
+        include/rogue/systems/take_trap_system.h
+        include/rogue/components/indicators/floor_counter_component.h
+)
 
 include_directories(${PROJECT_HEADERS_DIR})
 

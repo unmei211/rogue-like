@@ -1,45 +1,43 @@
 #include <BearLibTerminal.h>
+#include <constants.h>
 
-#include "lib/ecs/engine.h"
+#include "lib/scenes/context.h"
+#include "lib/scenes/scene_manager.h"
 #include "lib/utils/controls.h"
-#include "rogue/components/movement_component.h"
-#include "rogue/components/player_control_component.h"
-#include "rogue/components/texture_component.h"
-#include "rogue/components/transform_component.h"
-#include "rogue/systems/move_control_system.h"
-#include "rogue/systems/movement_system.h"
-#include "rogue/systems/rendering_system.h"
+#include "rogue/colors/colors.h"
+#include "rogue/scenes/game_over_scene.h"
+#include "rogue/scenes/game_scene.h"
+#include "rogue/scenes/title_scene.h"
+#include "rogue/scenes/win_scene.h"
+#include "rogue/tools/graphics_changer.h"
 
 int main() {
   terminal_open();
+  terminal_set(TERMINAL_CFG);
+  terminal_bkcolor(PurpleBackground.c1_);
   terminal_refresh();
+  terminal_composition(TK_ON);
 
   Controls controls;
-  const Engine engine{};
-  {
-    auto coin = engine.GetEntityManager()->CreateEntity();
-    coin->Add<TransformComponent>(Vec2(16, 15));
-    coin->Add<TextureComponent>('$');
-    engine.GetSystemManager()->AddSystem<RenderingSystem>();
-  }
-  auto player = engine.GetEntityManager()->CreateEntity();
-  player->Add<TransformComponent>(Vec2(15, 15));
-  player->Add<TextureComponent>('@');
-  player->Add<MovementComponent>(Vec2(1, 1), ZeroVec2);
-  player->Add<PlayerControlComponent>(TK_RIGHT, TK_LEFT, TK_DOWN, TK_UP);
-  engine.GetSystemManager()->AddSystem<MoveControlSystem>(controls);
-  engine.GetSystemManager()->AddSystem<MovementSystem>();
-  engine.GetSystemManager()->AddSystem<RenderingSystem>();
+  GraphicsChanger::ChangeGraphics();
+  Context ctx{};
+  SceneManager sm(ctx);
+  sm.Put(TITLE_CONTEXT, new TitleScene(&ctx, controls));
+  sm.Put(GAME_CONTEXT, new GameScene(&ctx, controls));
+  sm.Put(GAME_OVER_CONTEXT, new GameOverScene(&ctx, controls));
+  sm.Put(WIN_CONTEXT, new WinScene(&ctx, controls));
 
+  ctx.scene_ = TITLE_CONTEXT;
   while (true) {
     controls.OnUpdate();
     if (controls.IsPressed(TK_CLOSE) || controls.IsPressed(TK_ESCAPE)) {
       break;
     }
-    engine.OnUpdate();
+    sm.OnRender();
+
     controls.Reset();
-    terminal_refresh();
   }
 
+  sm.OnExit();
   terminal_close();
 }

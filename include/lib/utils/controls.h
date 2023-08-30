@@ -17,6 +17,7 @@ class Controls {
     }
     return is_pressed_.at(btn_key);
   }
+
   void Reset() {
     for (auto& btn : is_pressed_) {
       btn.second = false;

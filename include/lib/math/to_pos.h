@@ -3,8 +3,6 @@
 
 #include "cmath"
 
-int ToPos(float pos) {
-  return static_cast<int>(std::round(pos));
-}
+int ToPos(float pos);
 
 #endif  // INCLUDE_LIB_MATH_TO_POS_H_

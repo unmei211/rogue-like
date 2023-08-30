@@ -1,5 +1,5 @@
-#ifndef INCLUDE_ROGUE_COMPONENTS_MOVEMENT_COMPONENT_H_
-#define INCLUDE_ROGUE_COMPONENTS_MOVEMENT_COMPONENT_H_
+#ifndef INCLUDE_ROGUE_COMPONENTS_CAPABILITIES_MOVEMENT_COMPONENT_H_
+#define INCLUDE_ROGUE_COMPONENTS_CAPABILITIES_MOVEMENT_COMPONENT_H_
 
 #include "lib/ecs/component.h"
 #include "lib/math/vec2.h"
@@ -11,4 +11,4 @@ class MovementComponent : public IComponent {
   explicit MovementComponent(Vec2 speed, Vec2 direction = ZeroVec2) : speed_(speed), direction_(direction) {}
 };
 
-#endif  // INCLUDE_ROGUE_COMPONENTS_MOVEMENT_COMPONENT_H_
+#endif  // INCLUDE_ROGUE_COMPONENTS_CAPABILITIES_MOVEMENT_COMPONENT_H_

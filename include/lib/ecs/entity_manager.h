@@ -25,6 +25,7 @@ class EntityManager {
   }
   EntityManager* DeleteAll() {
     entities_.clear();
+    last_entity_id = 1;
     return this;
   }
   Entity* Get(size_t id) const {

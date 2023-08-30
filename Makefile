@@ -6,13 +6,19 @@ endif
 
 all: clean run
 
+mem:
+	valgrind --leak-check=full --leak-resolution=med make run
+
+memcheck:
+	valgrind --leak-check=full --leak-resolution=med make
+
 run: reload build exec
 
 mkdir_build:
 		[ -d ./cmake-build-debug ] | mkdir -p cmake-build-debug
 
 build:
-		cd cmake-build-debug;cmake --build . --target ECS
+		cd cmake-build-debug;cmake --build . --parallel 16 --target ECS
 exec:
 		./cmake-build-debug/ECS
 
