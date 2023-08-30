@@ -1,0 +1,7 @@
+#ifndef INCLUDE_ROGUE_COMPONENTS_TAGS_MARIONETTE_COMPONENT_H_
+#define INCLUDE_ROGUE_COMPONENTS_TAGS_MARIONETTE_COMPONENT_H_
+
+#include "lib/ecs/component.h"
+class MarionetteComponent : public IComponent {};
+
+#endif  // INCLUDE_ROGUE_COMPONENTS_TAGS_MARIONETTE_COMPONENT_H_
